@@ -123,11 +123,18 @@ the link at the top of the tab.
 
 **Delete links are secrets.** Do not share `sspaste-history.json` / `.html`.
 
+## Requirements
+
+- Minecraft 26.3
+- Fabric Loader 0.20.1+
+- Fabric API 0.165.0+26.3
+- Java 25
+- Mod Menu 21.0.0 / Cloth Config 26.3.159+ (for the in-game config screen; `config/sspaste.json` works without them)
+
 ## Notes
 
 - Uploads are public. Anyone with the URL can view the image.
 - Images larger than `maxUploadMegabytes` are downscaled (PNG) before upload.
-- Requires Java 25 and Fabric API 0.165.0+26.3.
 
 ## Build
 

@@ -87,11 +87,18 @@ HTTPS のみ、最大 8 MB。プレビュー画像は高解像度テクスチャ
 
 **削除リンクは秘密情報です。** `sspaste-history.json` / `.html` を他人と共有しないでください。
 
+## 前提
+
+- Minecraft 26.3
+- Fabric Loader 0.20.1+
+- Fabric API 0.165.0+26.3
+- Java 25
+- Mod Menu 21.0.0 / Cloth Config 26.3.159+（設定画面を使う場合。なくても `config/sspaste.json` で設定できます）
+
 ## 注意
 
 - アップロードした画像は公開 URL になります。
 - `maxUploadMegabytes` を超える画像はアップロード前に縮小されます（PNG）。
-- Java 25 と Fabric API 0.165.0+26.3 が必要です。
 
 ## ビルド
 
