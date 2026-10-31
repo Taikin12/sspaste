@@ -128,5 +128,5 @@ folder to avoid duplicates.
 
 ```sh
 ./gradlew build
-# -> build/libs/picpaste-2.6.0.jar
+# -> build/libs/picpaste-2.6.1.jar
 ```

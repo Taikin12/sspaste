@@ -92,5 +92,5 @@ MOD ID は `picpaste` です。既存の `config/chatimageuploader.json` また�
 
 ```sh
 ./gradlew build
-# -> build/libs/picpaste-2.6.0.jar
+# -> build/libs/picpaste-2.6.1.jar
 ```
