@@ -72,10 +72,6 @@ HTTPS のみ、最大 8 MB。プレビュー画像は高解像度テクスチャ
 
 アップロードした画像は選択した第三者のホストに送信され、公開 URL になります。トークンや API キーは `config/sspaste.json` にローカル保存され、選択したホストにのみ送信されます。アップロード履歴（画像URL・削除リンク）も `config/` にローカル保存されます。チャットプレビューは対応ホストから画像を取得します。作者にデータは送信されません。
 
-## 移行
-
-MOD ID は `sspaste` です。既存の `config/chatimageuploader.json` または `config/chatimgur.json` は `config/sspaste.json` に自動コピーされます。古い `chatimageuploader-*.jar` / `chatimgur-*.jar` は mods フォルダから削除してください。
-
 ## アップロード履歴
 
 アップロードに成功するたびに、画像URLと削除リンク（取得できる場合）をローカルへ保存します。

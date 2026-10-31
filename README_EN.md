@@ -105,13 +105,6 @@ history (image URLs and delete links) is also stored locally under `config/`.
 Chat previews fetch image URLs from the supported hosts; no data is sent to the
 mod author.
 
-## Migration
-
-The mod id changed to `sspaste`. An existing `config/chatimageuploader.json`
-or `config/chatimgur.json` is copied to `config/sspaste.json` automatically.
-Remove old `chatimageuploader-*.jar` / `chatimgur-*.jar` files from the mods
-folder to avoid duplicates.
-
 ## Upload history
 
 After each successful upload, the mod saves the image URL and (when available)
