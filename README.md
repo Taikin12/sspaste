@@ -70,11 +70,26 @@ HTTPS のみ、最大 8 MB。プレビュー画像は高解像度テクスチャ
 
 ## プライバシー
 
-アップロードした画像は選択した第三者のホストに送信され、公開 URL になります。トークンや API キーは `config/picpaste.json` にローカル保存され、選択したホストにのみ送信されます。チャットプレビューは対応ホストから画像を取得します。作者にデータは送信されません。
+アップロードした画像は選択した第三者のホストに送信され、公開 URL になります。トークンや API キーは `config/picpaste.json` にローカル保存され、選択したホストにのみ送信されます。アップロード履歴（画像URL・削除リンク）も `config/` にローカル保存されます。チャットプレビューは対応ホストから画像を取得します。作者にデータは送信されません。
 
 ## 移行
 
 MOD ID は `picpaste` です。既存の `config/chatimageuploader.json` または `config/chatimgur.json` は `config/picpaste.json` に自動コピーされます。古い `chatimageuploader-*.jar` / `chatimgur-*.jar` は mods フォルダから削除してください。
+
+## アップロード履歴
+
+アップロードに成功するたびに、画像URLと削除リンク（取得できる場合）をローカルへ保存します。
+
+- `config/picpaste-history.json` — 履歴データ
+- `config/picpaste-history.html` — ブラウザで見る履歴ページ
+
+新しい順に最大200件。**Mod Menu > PicPaste > Config** の「アップロード履歴」リンク、またはHTMLファイルを直接開いてください。
+
+- Imgur / ImgBB / gzo.ai: 削除リンクを記録
+- Gyazo: 画像ページを記録（削除はGyazo上で）
+- Catbox: 削除リンクなし
+
+**削除リンクは秘密情報です。** `picpaste-history.json` / `.html` を他人と共有しないでください。
 
 ## 注意
 
@@ -86,5 +101,5 @@ MOD ID は `picpaste` です。既存の `config/chatimageuploader.json` また�
 
 ```sh
 ./gradlew build
-# -> build/libs/picpaste-2.7.0.jar
+# -> build/libs/picpaste-2.8.0.jar
 ```

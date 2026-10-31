@@ -107,7 +107,8 @@ public final class ImageUploader {
 		String deleteHash = data.has("deletehash") && !data.get("deletehash").isJsonNull()
 				? data.get("deletehash").getAsString()
 				: null;
-		return new UploadResult("imgur", link, deleteHash);
+		String deleteUrl = deleteHash == null ? null : "https://imgur.com/delete/" + deleteHash;
+		return new UploadResult("imgur", link, deleteUrl, deleteHash);
 	}
 
 	private static UploadResult uploadGyazo(byte[] png, PicPasteConfig config) throws IOException, InterruptedException {
@@ -142,7 +143,13 @@ public final class ImageUploader {
 			throw new IOException("Gyazo: " + truncate(error));
 		}
 
-		return new UploadResult("gyazo", json.get("url").getAsString(), null);
+		String imageId = json.has("image_id") && !json.get("image_id").isJsonNull()
+				? json.get("image_id").getAsString()
+				: null;
+		String permalink = json.has("permalink_url") && !json.get("permalink_url").isJsonNull()
+				? json.get("permalink_url").getAsString()
+				: null;
+		return new UploadResult("gyazo", json.get("url").getAsString(), permalink, imageId);
 	}
 
 	private static UploadResult uploadImgbb(byte[] png, PicPasteConfig config) throws IOException, InterruptedException {
@@ -183,7 +190,10 @@ public final class ImageUploader {
 					: "HTTP " + response.statusCode();
 			throw new IOException("ImgBB: " + truncate(error));
 		}
-		return new UploadResult("imgbb", url, null);
+		String deleteUrl = data != null && data.has("delete_url") && !data.get("delete_url").isJsonNull()
+				? data.get("delete_url").getAsString()
+				: null;
+		return new UploadResult("imgbb", url, deleteUrl, null);
 	}
 
 	private static UploadResult uploadGzo(byte[] png) throws IOException, InterruptedException {
@@ -223,7 +233,13 @@ public final class ImageUploader {
 		if (url.startsWith("/")) {
 			url = "https://gzo.ai" + url;
 		}
-		return new UploadResult("gzo", url, null);
+		String deleteUrl = data != null && data.has("delete_url") && !data.get("delete_url").isJsonNull()
+				? data.get("delete_url").getAsString()
+				: null;
+		if (deleteUrl != null && deleteUrl.startsWith("/")) {
+			deleteUrl = "https://gzo.ai" + deleteUrl;
+		}
+		return new UploadResult("gzo", url, deleteUrl, null);
 	}
 
 	private static UploadResult uploadCatbox(byte[] png) throws IOException, InterruptedException {
@@ -245,7 +261,7 @@ public final class ImageUploader {
 		if (response.statusCode() >= 300 || !url.startsWith("http")) {
 			throw new IOException("catbox: " + truncate(url.isBlank() ? "HTTP " + response.statusCode() : url));
 		}
-		return new UploadResult("catbox", url, null);
+		return new UploadResult("catbox", url, null, null);
 	}
 
 	private static String imgurError(JsonObject json, int statusCode) {

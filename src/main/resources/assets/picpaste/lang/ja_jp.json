@@ -48,5 +48,8 @@
 	"picpaste.config.uploader.imgur": "Imgur",
 	"picpaste.config.client_id": "Imgur Client-ID",
 	"picpaste.config.client_id.tooltip": "既存のImgurアプリ用です。新規Client-ID登録は現在停止しています。",
-	"picpaste.config.client_id.note": "既存のImgur Client-IDがある場合のみ設定してください。"
+	"picpaste.config.client_id.note": "既存のImgur Client-IDがある場合のみ設定してください。",
+	"picpaste.config.history": "アップロード履歴: %s",
+	"picpaste.config.history.link_hover": "ローカルのアップロード履歴ページを開く",
+	"picpaste.config.history.note": "削除リンクはローカル保存です。履歴ファイルを共有しないでください。"
 }

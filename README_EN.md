@@ -100,9 +100,10 @@ the property of their respective owners.
 
 Images are sent to the selected third-party host when you upload them and become
 publicly accessible URLs. Tokens and API keys are stored locally in
-`config/picpaste.json` and are only sent to the selected host. Chat
-previews fetch image URLs from the supported hosts; no data is sent to the mod
-author.
+`config/picpaste.json` and are only sent to the selected host. The upload
+history (image URLs and delete links) is also stored locally under `config/`.
+Chat previews fetch image URLs from the supported hosts; no data is sent to the
+mod author.
 
 ## Migration
 
@@ -110,6 +111,23 @@ The mod id changed to `picpaste`. An existing `config/chatimageuploader.json`
 or `config/chatimgur.json` is copied to `config/picpaste.json` automatically.
 Remove old `chatimageuploader-*.jar` / `chatimgur-*.jar` files from the mods
 folder to avoid duplicates.
+
+## Upload history
+
+After each successful upload, the mod saves the image URL and (when available)
+the delete link locally:
+
+- `config/picpaste-history.json` — history data
+- `config/picpaste-history.html` — browser-viewable history page
+
+Newest first, up to 200 entries. Open it from the "Upload history" link in
+**Mod Menu > PicPaste > Config**, or open the HTML file directly.
+
+- Imgur / ImgBB / gzo.ai: delete link is recorded
+- Gyazo: image page is recorded (delete from Gyazo)
+- Catbox: no delete link
+
+**Delete links are secrets.** Do not share `picpaste-history.json` / `.html`.
 
 ## Notes
 
@@ -121,5 +139,5 @@ folder to avoid duplicates.
 
 ```sh
 ./gradlew build
-# -> build/libs/picpaste-2.7.0.jar
+# -> build/libs/picpaste-2.8.0.jar
 ```

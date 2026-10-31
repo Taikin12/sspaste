@@ -33,6 +33,7 @@ public final class PicPasteClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		config = PicPasteConfig.load();
+		PicPasteHistory.load();
 
 		ClientPlayConnectionEvents.DISCONNECT.register(
 				(handler, client) -> client.execute(PicPasteTextures::clear));
@@ -89,6 +90,7 @@ public final class PicPasteClient implements ClientModInitializer {
 
 	private static void onUploaded(ChatScreen screen, UploadResult result) {
 		BUSY.set(false);
+		PicPasteHistory.add(result);
 
 		Minecraft minecraft = Minecraft.getInstance();
 		if (minecraft.gui.screen() == screen) {

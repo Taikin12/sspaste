@@ -48,5 +48,8 @@
 	"picpaste.config.uploader.imgur": "Imgur",
 	"picpaste.config.client_id": "Imgur Client-ID",
 	"picpaste.config.client_id.tooltip": "Only for existing Imgur applications. New Client-ID registration is currently closed.",
-	"picpaste.config.client_id.note": "If you already have an Imgur Client-ID, set it here."
+	"picpaste.config.client_id.note": "If you already have an Imgur Client-ID, set it here.",
+	"picpaste.config.history": "Upload history: %s",
+	"picpaste.config.history.link_hover": "Open the local upload history page",
+	"picpaste.config.history.note": "Delete links are stored locally. Do not share the history file."
 }

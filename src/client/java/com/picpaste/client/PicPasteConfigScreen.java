@@ -1,6 +1,7 @@
 package com.picpaste.client;
 
 import java.net.URI;
+import java.nio.file.Path;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -79,6 +80,13 @@ public final class PicPasteConfigScreen {
 				.setSaveConsumer(v -> config.chatImageTextureHeight = v)
 				.setTooltip(Component.translatable("picpaste.config.texture_height.tooltip"))
 				.build());
+		general.addEntry(eb.startTextDescription(
+						Component.translatable("picpaste.config.history",
+								fileLink(PicPasteHistory.htmlPath())))
+				.build());
+		general.addEntry(eb.startTextDescription(
+						Component.translatable("picpaste.config.history.note"))
+				.build());
 
 		ConfigCategory upload = builder.getOrCreateCategory(Component.translatable("picpaste.config.category.upload"));
 		upload.addEntry(eb.startSelector(Component.translatable("picpaste.config.uploader"),
@@ -129,6 +137,15 @@ public final class PicPasteConfigScreen {
 						Component.translatable("picpaste.config.client_id.note"))
 				.build());
 		return builder.build();
+	}
+
+	private static Component fileLink(Path path) {
+		return Component.literal(path.getFileName().toString())
+				.withStyle(ChatFormatting.AQUA, ChatFormatting.UNDERLINE)
+				.withStyle(style -> style
+						.withClickEvent(new ClickEvent.OpenFile(path))
+						.withHoverEvent(new HoverEvent.ShowText(
+								Component.translatable("picpaste.config.history.link_hover"))));
 	}
 
 	private static Component link(URI uri, String hoverKey) {
