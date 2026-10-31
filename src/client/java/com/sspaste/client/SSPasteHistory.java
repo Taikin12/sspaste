@@ -41,6 +41,12 @@ public final class SSPasteHistory {
 		return JSON_PATH;
 	}
 
+	public static List<Entry> entries() {
+		synchronized (ENTRIES) {
+			return new ArrayList<>(ENTRIES);
+		}
+	}
+
 	public static void load() {
 		if (!Files.exists(JSON_PATH)) {
 			Path source = Files.exists(RECENT_JSON_PATH) ? RECENT_JSON_PATH

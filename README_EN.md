@@ -120,8 +120,9 @@ the delete link locally:
 - `config/sspaste-history.json` — history data
 - `config/sspaste-history.html` — browser-viewable history page
 
-Newest first, up to 200 entries. Open it from the "Upload history" link in
-**Mod Menu > SS Paste > Config**, or open the HTML file directly.
+The **Upload history** tab in **Mod Menu > SS Paste > Config** shows the newest
+20 entries with clickable image and delete links. Open the full HTML page from
+the link at the top of the tab.
 
 - Imgur / ImgBB / gzo.ai: delete link is recorded
 - Gyazo: image page is recorded (delete from Gyazo)
@@ -139,5 +140,5 @@ Newest first, up to 200 entries. Open it from the "Upload history" link in
 
 ```sh
 ./gradlew build
-# -> build/libs/sspaste-3.1.0.jar
+# -> build/libs/sspaste-3.2.0.jar
 ```

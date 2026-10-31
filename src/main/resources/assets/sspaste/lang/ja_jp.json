@@ -51,5 +51,15 @@
 	"sspaste.config.client_id.note": "既存のImgur Client-IDがある場合のみ設定してください。",
 	"sspaste.config.history": "アップロード履歴: %s",
 	"sspaste.config.history.link_hover": "ローカルのアップロード履歴ページを開く",
-	"sspaste.config.history.note": "削除リンクはローカル保存です。履歴ファイルを共有しないでください。"
+	"sspaste.config.history.note": "最新20件を表示しています。削除リンクは秘密情報なので、履歴ファイルを共有しないでください。",
+	"sspaste.config.category.history": "アップロード履歴",
+	"sspaste.config.history.empty": "まだアップロード履歴がありません。",
+	"sspaste.config.history.image": "画像",
+	"sspaste.config.history.delete": "削除",
+	"sspaste.config.history.gyazo": "Gyazoで開く",
+	"sspaste.config.history.key": "キー: %s",
+	"sspaste.config.history.none": "削除リンクなし",
+	"sspaste.config.history.image_hover": "画像を開く",
+	"sspaste.config.history.delete_hover": "削除リンクを開く",
+	"sspaste.config.history.gyazo_hover": "Gyazoの画像ページを開く（削除はGyazo上で）"
 }

@@ -2,6 +2,7 @@ package com.sspaste.client;
 
 import java.net.URI;
 import java.nio.file.Path;
+import java.util.List;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -10,6 +11,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.MutableComponent;
 
 public final class SSPasteConfigScreen {
 	private static final URI GYAZO_APPS_URL = URI.create("https://gyazo.com/oauth/applications");
@@ -80,13 +82,6 @@ public final class SSPasteConfigScreen {
 				.setSaveConsumer(v -> config.chatImageTextureHeight = v)
 				.setTooltip(Component.translatable("sspaste.config.texture_height.tooltip"))
 				.build());
-		general.addEntry(eb.startTextDescription(
-						Component.translatable("sspaste.config.history",
-								fileLink(SSPasteHistory.htmlPath())))
-				.build());
-		general.addEntry(eb.startTextDescription(
-						Component.translatable("sspaste.config.history.note"))
-				.build());
 
 		ConfigCategory upload = builder.getOrCreateCategory(Component.translatable("sspaste.config.category.upload"));
 		upload.addEntry(eb.startSelector(Component.translatable("sspaste.config.uploader"),
@@ -136,7 +131,69 @@ public final class SSPasteConfigScreen {
 		upload.addEntry(eb.startTextDescription(
 						Component.translatable("sspaste.config.client_id.note"))
 				.build());
+		ConfigCategory history = builder.getOrCreateCategory(
+				Component.translatable("sspaste.config.category.history"));
+		history.addEntry(eb.startTextDescription(
+						Component.translatable("sspaste.config.history",
+								fileLink(SSPasteHistory.htmlPath())))
+				.build());
+		history.addEntry(eb.startTextDescription(
+						Component.translatable("sspaste.config.history.note"))
+				.build());
+		List<SSPasteHistory.Entry> entries = SSPasteHistory.entries();
+		if (entries.isEmpty()) {
+			history.addEntry(eb.startTextDescription(
+							Component.translatable("sspaste.config.history.empty"))
+					.build());
+		} else {
+			int limit = Math.min(20, entries.size());
+			for (int i = 0; i < limit; i++) {
+				history.addEntry(eb.startTextDescription(historyLine(entries.get(i))).build());
+			}
+		}
+
 		return builder.build();
+	}
+
+	private static Component historyLine(SSPasteHistory.Entry entry) {
+		MutableComponent line = Component.empty()
+				.append(Component.literal(entry.time() + "  ").withStyle(ChatFormatting.GRAY))
+				.append(Component.literal(entry.host() + "  ").withStyle(ChatFormatting.WHITE))
+				.append(urlLink(Component.translatable("sspaste.config.history.image"),
+						entry.url(), "sspaste.config.history.image_hover", ChatFormatting.AQUA));
+		if (entry.deleteUrl() != null && !entry.deleteUrl().isBlank()) {
+			boolean gyazo = "gyazo".equals(entry.host());
+			line.append(Component.literal("  "));
+			line.append(urlLink(
+					Component.translatable(gyazo
+							? "sspaste.config.history.gyazo"
+							: "sspaste.config.history.delete"),
+					entry.deleteUrl(),
+					gyazo ? "sspaste.config.history.gyazo_hover" : "sspaste.config.history.delete_hover",
+					gyazo ? ChatFormatting.AQUA : ChatFormatting.RED));
+		} else if (entry.deleteKey() != null && !entry.deleteKey().isBlank()) {
+			line.append(Component.literal("  "))
+					.append(Component.translatable("sspaste.config.history.key", entry.deleteKey())
+							.withStyle(ChatFormatting.DARK_GRAY));
+		} else {
+			line.append(Component.literal("  "))
+					.append(Component.translatable("sspaste.config.history.none")
+							.withStyle(ChatFormatting.DARK_GRAY));
+		}
+		return line;
+	}
+
+	private static Component urlLink(Component label, String url, String hoverKey, ChatFormatting color) {
+		try {
+			URI uri = URI.create(url);
+			return label.copy()
+					.withStyle(color, ChatFormatting.UNDERLINE)
+					.withStyle(style -> style
+							.withClickEvent(new ClickEvent.OpenUrl(uri))
+							.withHoverEvent(new HoverEvent.ShowText(Component.translatable(hoverKey))));
+		} catch (IllegalArgumentException e) {
+			return label.copy().withStyle(ChatFormatting.DARK_GRAY);
+		}
 	}
 
 	private static Component fileLink(Path path) {

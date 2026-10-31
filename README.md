@@ -83,7 +83,7 @@ MOD ID は `sspaste` です。既存の `config/chatimageuploader.json` また�
 - `config/sspaste-history.json` — 履歴データ
 - `config/sspaste-history.html` — ブラウザで見る履歴ページ
 
-新しい順に最大200件。**Mod Menu > SS Paste > Config** の「アップロード履歴」リンク、またはHTMLファイルを直接開いてください。
+**Mod Menu > SS Paste > Config** の「アップロード履歴」タブに最新20件を表示します。画像URLと削除リンクはクリックで開けます。全件はタブ先頭のHTMLページリンクから開けます。
 
 - Imgur / ImgBB / gzo.ai: 削除リンクを記録
 - Gyazo: 画像ページを記録（削除はGyazo上で）
@@ -101,5 +101,5 @@ MOD ID は `sspaste` です。既存の `config/chatimageuploader.json` また�
 
 ```sh
 ./gradlew build
-# -> build/libs/sspaste-3.1.0.jar
+# -> build/libs/sspaste-3.2.0.jar
 ```

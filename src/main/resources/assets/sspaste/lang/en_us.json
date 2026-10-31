@@ -51,5 +51,15 @@
 	"sspaste.config.client_id.note": "If you already have an Imgur Client-ID, set it here.",
 	"sspaste.config.history": "Upload history: %s",
 	"sspaste.config.history.link_hover": "Open the local upload history page",
-	"sspaste.config.history.note": "Delete links are stored locally. Do not share the history file."
+	"sspaste.config.history.note": "The newest 20 entries are shown. Delete links are secrets; do not share the history files.",
+	"sspaste.config.category.history": "Upload history",
+	"sspaste.config.history.empty": "No uploads yet.",
+	"sspaste.config.history.image": "Image",
+	"sspaste.config.history.delete": "Delete",
+	"sspaste.config.history.gyazo": "Open in Gyazo",
+	"sspaste.config.history.key": "Key: %s",
+	"sspaste.config.history.none": "No delete link",
+	"sspaste.config.history.image_hover": "Open image",
+	"sspaste.config.history.delete_hover": "Open delete link",
+	"sspaste.config.history.gyazo_hover": "Open the Gyazo image page (delete from Gyazo)"
 }
