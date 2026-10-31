@@ -1,55 +1,37 @@
 # PicPaste
 
-PicPaste is a client-side Fabric mod (Minecraft 26.3). Paste an image into the chat box with
-`Ctrl+V` (or `Cmd+V`): the image is uploaded and its URL is inserted into the
-chat input. F2 screenshots (including clean screenshots taken with F1) are also
-copied to the system clipboard automatically.
+[English](README_EN.md) | 日本語
+
+Minecraft 26.3 用のクライアントサイド Fabric MOD です。チャット欄で `Ctrl+V`（Mac は `Cmd+V`）すると、クリップボードの画像をアップロードして URL を入力欄に挿入します。F2 スクリーンショット（F1 で HUD を消したものも含む）は自動でシステムクリップボードにもコピーされます。
 
 ![PicPaste demo](docs/picpaste-demo.gif)
 
-- Text paste is unchanged: if the clipboard contains plain text, the normal
-  text paste happens.
-- Images copied as a bitmap (`DataFlavor.imageFlavor` / `image/png`) or as an
-  image file are supported.
-- The upload runs in the background; the URL is inserted at the cursor when it
-  finishes. If the chat screen was closed meanwhile, the URL is copied to the
-  clipboard and shown in chat.
-- F2 screenshots are copied to the clipboard, so you can take a clean F1
-  screenshot and immediately paste it into chat.
-- Hover an image URL in chat to show a thumbnail preview in a tooltip
-  (`showChatImagePreviews`, default on).
+- クリップボードにテキストがある場合は、通常のテキスト貼り付けを優先します。
+- ビットマップ画像（`DataFlavor.imageFlavor` / `image/png`）と画像ファイルに対応しています。
+- アップロードはバックグラウンドで実行し、完了時にカーソル位置へ URL を挿入します。チャットを閉じていた場合は URL をクリップボードにコピーしてチャットに表示します。
+- F2 スクリーンショットをクリップボードへコピーするので、F1 のきれいなスクショをそのまま貼り付けられます。
+- チャット内の画像 URL にホバーするとツールチップでプレビューします（`showChatImagePreviews`、デフォルト ON）。
 
-## Hosts
+## アップロード先
 
-| config `uploader` | behaviour |
-| ----------------- | --------- |
-| `catbox` (default) | catbox.moe (no token required) |
-| `auto`            | Gyazo if a token is set, otherwise ImgBB if an API key is set, otherwise catbox.moe |
-| `gyazo`           | Gyazo (access token) |
-| `imgbb`           | ImgBB (API key) |
-| `gzo`             | gzo.ai anonymous (no key, expires after 24 hours) |
-| `imgur`           | Imgur (existing Client-ID or access token only) |
+| `uploader` | 動作 |
+| --- | --- |
+| `catbox`（デフォルト） | catbox.moe（トークン不要） |
+| `auto` | Imgur 設定時は Imgur → Gyazo → ImgBB → catbox.moe |
+| `gyazo` | Gyazo（アクセストークン） |
+| `imgbb` | ImgBB（API キー） |
+| `gzo` | gzo.ai 匿名（キー不要、24 時間で消える） |
+| `imgur` | Imgur（既存の Client-ID または一時アクセストークンがある場合のみ） |
 
-Imgur still works if you already have a Client-ID or a temporary access token
-(the Siki method); new Client-ID registration is currently closed.
+Imgur は新規 Client-ID 登録が停止しているため、既存の Client-ID か一時アクセストークン（Siki 方式）が必要です。
 
-Gyazo requires an **access token**: create an application at
-<https://gyazo.com/oauth/applications> and generate one. Uploads are saved to
-your Gyazo account.
+- **Gyazo**: <https://gyazo.com/oauth/applications> でアプリを作成し、アクセストークンを発行します。画像は Gyazo アカウントに保存されます。
+- **ImgBB**: <https://api.imgbb.com/> で無料 API キーを取得します。アップロードは恒久的です。
+- **gzo.ai**: キー不要。明示的に選択すると使えます。24 時間で消えます（ログイン時の 7 日保存は未実装）。
+- **imgbox**: 公開アップロード API がないため非対応です（Siki も Web 版のみ）。
+- **Catbox**: キー不要。デフォルトのアップロード先です。
 
-ImgBB requires a **free API key** from <https://api.imgbb.com/>. Uploads are
-permanent.
-
-gzo.ai works anonymously without a key and is selectable explicitly. Uploads
-expire after 24 hours (the logged-in 7-day mode is not implemented).
-
-imgbox has no public upload API (Siki uses its web upload page), so it is not
-supported for automatic upload.
-
-Config file: `config/picpaste.json` (created on first launch). If Mod Menu
-and Cloth Config are installed, the same settings are available from
-**Mod Menu > Chat Image Uploader > Config**. The screen follows the game
-language (English/Japanese) and includes a clickable Gyazo token link.
+設定ファイル: `config/picpaste.json`（初回起動時に生成）。Mod Menu と Cloth Config が入っている場合は **Mod Menu > PicPaste > Config** からも設定できます。画面はゲーム言語（日本語/英語）に追従し、Gyazo トークン取得へのリンクも表示します。
 
 ```json
 {
@@ -69,61 +51,44 @@ language (English/Japanese) and includes a clickable Gyazo token link.
 }
 ```
 
-The Imgur Client-ID can also come from `PICPASTE_CLIENT_ID` or
-`IMGUR_CLIENT_ID`, and the Imgur access token from
-`PICPASTE_IMGUR_ACCESS_TOKEN` or `IMGUR_ACCESS_TOKEN`. The Gyazo token can
-come from `PICPASTE_GYAZO_TOKEN` or `GYAZO_ACCESS_TOKEN`. The ImgBB key can
-come from `PICPASTE_IMGBB_API_KEY` or `IMGBB_API_KEY`.
+環境変数でも設定できます（旧 `CHATIMAGEUPLOADER_*` / `CHATIMGUR_*` も読みます）。
 
-## Chat image previews
+- Imgur Client-ID: `PICPASTE_CLIENT_ID`
+- Imgur アクセストークン: `PICPASTE_IMGUR_ACCESS_TOKEN`
+- Gyazo: `PICPASTE_GYAZO_TOKEN`
+- ImgBB: `PICPASTE_IMGBB_API_KEY`
 
-Direct image URLs and extensionless viewer pages from Imgur, Gyazo, ImgBB,
-gzo.ai, and Catbox are previewed when you hover over them in chat (the same
-tooltip approach as ChatImage). Viewer pages are resolved to the actual image
-via Open Graph tags / known URL patterns. Clicking the URL still opens it in
-the browser. Imgur albums/galleries with a configured Client-ID or access token
-show up to 4 images in a 2x2 grid (with "+N" for the rest); without Imgur
-credentials only the cover image is previewed. Only HTTPS URLs are loaded, up
-to 8 MB; previews are
-downloaded/scaled to a high-resolution texture (1280x720 by default) and drawn
-at a smaller display size (160x100 by default) with linear filtering. Both are
-separately adjustable in the config screen (`chatImagePreviewWidth`/`Height`
-for the display, `chatImageTextureWidth`/`Height` for the texture resolution).
-Higher texture resolution looks sharper but uses more memory. Disable previews
-entirely with `showChatImagePreviews`.
+## チャット画像プレビュー
 
-## Credits
+Imgur / Gyazo / ImgBB / gzo.ai / Catbox の直リンクと、拡張子なしのページ URL に対応しています。ページ URL は OGP（`og:image`）や既知の URL パターンから実画像を解決します。URL をクリックするとブラウザで開きます。
 
-- Imgur temporary-token method documented by the [Siki wiki](https://wikiwiki.jp/siki-app/).
+Imgur のアルバム／ギャラリーは、Client-ID またはアクセストークンが設定されている場合に最大 4 枚を 2x2 グリッドで表示します（5 枚以上は「+N」）。認証情報がない場合はカバー画像 1 枚のみです。
 
-## Disclaimer
+HTTPS のみ、最大 8 MB。プレビュー画像は高解像度テクスチャ（デフォルト 1280x720）として取得し、小さい表示サイズ（デフォルト 160x100）にリニアフィルタで縮小します。表示サイズとテクスチャ解像度は設定画面で個別に変更できます（`chatImagePreviewWidth` / `chatImagePreviewHeight`、`chatImageTextureWidth` / `chatImageTextureHeight`）。テクスチャ解像度を上げるほどシャープになりますが、メモリ使用量が増えます。プレビュー自体は `showChatImagePreviews` で無効化できます。
 
-This mod is not affiliated with Mojang Studios, Microsoft, Imgur, Gyazo /
-Helpfeel, ImgBB, gzo.ai, or Catbox. All product names, logos, and trademarks are
-the property of their respective owners.
+## クレジット
 
-## Privacy
+- Imgur の一時トークン方式は [Siki wiki](https://wikiwiki.jp/siki-app/) を参考にしています。
 
-Images are sent to the selected third-party host when you upload them and become
-publicly accessible URLs. Tokens and API keys are stored locally in
-`config/picpaste.json` and are only sent to the selected host. Chat
-previews fetch image URLs from the supported hosts; no data is sent to the mod
-author.
+## 免責
 
-## Migration
+この MOD は Mojang Studios、Microsoft、Imgur、Gyazo / Helpfeel、ImgBB、gzo.ai、Catbox とは関係ありません。各製品名・ロゴ・商標はそれぞれの所有者に帰属します。
 
-The mod id changed to `picpaste`. An existing `config/chatimageuploader.json`
-or `config/chatimgur.json` is copied to `config/picpaste.json` automatically.
-Remove old `chatimageuploader-*.jar` / `chatimgur-*.jar` files from the mods
-folder to avoid duplicates.
+## プライバシー
 
-## Notes
+アップロードした画像は選択した第三者のホストに送信され、公開 URL になります。トークンや API キーは `config/picpaste.json` にローカル保存され、選択したホストにのみ送信されます。チャットプレビューは対応ホストから画像を取得します。作者にデータは送信されません。
 
-- Uploads are public. Anyone with the URL can view the image.
-- Images larger than `maxUploadMegabytes` are downscaled (PNG) before upload.
-- Requires Java 25 and Fabric API 0.165.0+26.3.
+## 移行
 
-## Build
+MOD ID は `picpaste` です。既存の `config/chatimageuploader.json` または `config/chatimgur.json` は `config/picpaste.json` に自動コピーされます。古い `chatimageuploader-*.jar` / `chatimgur-*.jar` は mods フォルダから削除してください。
+
+## 注意
+
+- アップロードした画像は公開 URL になります。
+- `maxUploadMegabytes` を超える画像はアップロード前に縮小されます（PNG）。
+- Java 25 と Fabric API 0.165.0+26.3 が必要です。
+
+## ビルド
 
 ```sh
 ./gradlew build
