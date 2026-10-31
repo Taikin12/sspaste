@@ -1,4 +1,4 @@
-package com.picpaste.client;
+package com.ssclip.client;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;

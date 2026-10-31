@@ -1,4 +1,4 @@
-package com.picpaste.client;
+package com.ssclip.client;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -33,14 +33,14 @@ import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 
-public final class PicPasteTextures {
+public final class SSClipTextures {
 	private static final int MAX_BYTES = 8 * 1024 * 1024;
 	private static final int DEFAULT_WIDTH = 1280;
 	private static final int DEFAULT_HEIGHT = 720;
 	private static final int MAX_ENTRIES = 16;
 	private static final int MAX_HTML_BYTES = 512 * 1024;
 	private static final String BROWSER_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-			+ "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 PicPaste/2.3";
+			+ "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 SSclip/2.3";
 	private static final List<String> IMAGE_EXTENSIONS = List.of(".png", ".jpg", ".jpeg", ".gif", ".webp");
 	private static final Pattern OG_IMAGE_PATTERN = Pattern.compile(
 			"<meta[^>]+(?:property|name)\\s*=\\s*[\"'](?:og:image(?::secure_url)?|twitter:image)[\"']"
@@ -59,7 +59,7 @@ public final class PicPasteTextures {
 			.followRedirects(HttpClient.Redirect.NORMAL)
 			.build();
 	private static final ExecutorService LOADER = Executors.newFixedThreadPool(2, runnable -> {
-		Thread thread = new Thread(runnable, "picpaste-preview");
+		Thread thread = new Thread(runnable, "ssclip-preview");
 		thread.setDaemon(true);
 		return thread;
 	});
@@ -68,7 +68,7 @@ public final class PicPasteTextures {
 	private static final int MAX_GALLERIES = 64;
 	private static final AtomicInteger NEXT_ID = new AtomicInteger();
 
-	private PicPasteTextures() {
+	private SSClipTextures() {
 	}
 
 	public static final class Entry {
@@ -138,7 +138,7 @@ public final class PicPasteTextures {
 	}
 
 	public static Gallery getGallery(String url) {
-		PicPasteConfig config = PicPasteClient.config();
+		SSClipConfig config = SSClipClient.config();
 		int maxWidth = config == null ? DEFAULT_WIDTH : config.chatImageTextureWidth;
 		int maxHeight = config == null ? DEFAULT_HEIGHT : config.chatImageTextureHeight;
 		maxWidth = Math.clamp(maxWidth, 320, 1920);
@@ -191,7 +191,7 @@ public final class PicPasteTextures {
 			gallery.resolved = true;
 		} catch (Throwable t) {
 			gallery.failed = true;
-			PicPasteClient.LOGGER.debug("Could not resolve gallery {}", gallery.url, t);
+			SSClipClient.LOGGER.debug("Could not resolve gallery {}", gallery.url, t);
 		}
 	}
 
@@ -288,7 +288,7 @@ public final class PicPasteTextures {
 					if (link.startsWith("http://")) {
 						link = "https://" + link.substring(7);
 					}
-					if (PicPasteUrls.isDirectImageUrl(link)) {
+					if (SSClipUrls.isDirectImageUrl(link)) {
 						links.add(link);
 					}
 				}
@@ -296,14 +296,14 @@ public final class PicPasteTextures {
 					return links;
 				}
 			} catch (Throwable t) {
-				PicPasteClient.LOGGER.debug("Could not fetch Imgur gallery {}", endpoint, t);
+				SSClipClient.LOGGER.debug("Could not fetch Imgur gallery {}", endpoint, t);
 			}
 		}
 		return null;
 	}
 
 	private static String imgurAuthorization() {
-		PicPasteConfig config = PicPasteClient.config();
+		SSClipConfig config = SSClipClient.config();
 		if (config == null) {
 			return null;
 		}
@@ -352,12 +352,12 @@ public final class PicPasteTextures {
 			entry.failed = true;
 		} catch (Throwable t) {
 			entry.failed = true;
-			PicPasteClient.LOGGER.debug("Could not load chat image {}", entry.url, t);
+			SSClipClient.LOGGER.debug("Could not load chat image {}", entry.url, t);
 		}
 	}
 
 	private static List<String> resolveCandidates(String url) {
-		if (PicPasteUrls.isDirectImageUrl(url)) {
+		if (SSClipUrls.isDirectImageUrl(url)) {
 			return List.of(url);
 		}
 
@@ -407,9 +407,9 @@ public final class PicPasteTextures {
 			if (imageUrl.startsWith("http://")) {
 				imageUrl = "https://" + imageUrl.substring(7);
 			}
-			return PicPasteUrls.isDirectImageUrl(imageUrl) ? imageUrl : null;
+			return SSClipUrls.isDirectImageUrl(imageUrl) ? imageUrl : null;
 		} catch (Throwable t) {
-			PicPasteClient.LOGGER.debug("Could not resolve preview page {}", pageUrl, t);
+			SSClipClient.LOGGER.debug("Could not resolve preview page {}", pageUrl, t);
 			return null;
 		}
 	}
@@ -490,7 +490,7 @@ public final class PicPasteTextures {
 			}
 			return ImageIO.read(new ByteArrayInputStream(bytes));
 		} catch (Throwable t) {
-			PicPasteClient.LOGGER.debug("Could not load preview image {}", url, t);
+			SSClipClient.LOGGER.debug("Could not load preview image {}", url, t);
 			return null;
 		}
 	}
@@ -509,10 +509,10 @@ public final class PicPasteTextures {
 			}
 		}
 
-		Identifier id = Identifier.fromNamespaceAndPath("picpaste",
+		Identifier id = Identifier.fromNamespaceAndPath("ssclip",
 				"chat/" + Integer.toHexString(NEXT_ID.incrementAndGet())
 						+ "-" + Integer.toHexString(entry.url.hashCode()));
-		LinearDynamicTexture texture = new LinearDynamicTexture(() -> "picpaste chat image", nativeImage);
+		LinearDynamicTexture texture = new LinearDynamicTexture(() -> "ssclip chat image", nativeImage);
 		minecraft.getTextureManager().register(id, texture);
 
 		entry.id = id;

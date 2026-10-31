@@ -1,4 +1,4 @@
-package com.picpaste.client;
+package com.ssclip.client;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -27,7 +27,7 @@ public final class ImageUploader {
 	private ImageUploader() {
 	}
 
-	public static UploadResult upload(byte[] png, PicPasteConfig config) throws IOException, InterruptedException {
+	public static UploadResult upload(byte[] png, SSClipConfig config) throws IOException, InterruptedException {
 		String host = config.resolvedUploader();
 		if (host.equals("imgur")) {
 			return uploadImgur(png, config);
@@ -71,20 +71,20 @@ public final class ImageUploader {
 		return String.format(java.util.Locale.ROOT, "%.0f KiB", bytes / 1024.0);
 	}
 
-	private static UploadResult uploadImgur(byte[] png, PicPasteConfig config) throws IOException, InterruptedException {
+	private static UploadResult uploadImgur(byte[] png, SSClipConfig config) throws IOException, InterruptedException {
 		String clientId = config.clientId();
 		if (clientId.isBlank()) {
-			throw new IOException("imgurClientId is not set in " + PicPasteConfig.path());
+			throw new IOException("imgurClientId is not set in " + SSClipConfig.path());
 		}
 		String authorization = "Client-ID " + clientId;
 
-		String boundary = "----picpaste" + UUID.randomUUID().toString().replace("-", "");
+		String boundary = "----ssclip" + UUID.randomUUID().toString().replace("-", "");
 		byte[] body = multipart(boundary, Map.of(), "image", "minecraft.png", "image/png", png);
 
 		HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.imgur.com/3/image"))
 				.timeout(Duration.ofSeconds(120))
 				.header("Authorization", authorization)
-				.header("User-Agent", "picpaste/1.0 (Minecraft mod)")
+				.header("User-Agent", "ssclip/1.0 (Minecraft mod)")
 				.header("Content-Type", "multipart/form-data; boundary=" + boundary)
 				.POST(HttpRequest.BodyPublishers.ofByteArray(body))
 				.build();
@@ -111,19 +111,19 @@ public final class ImageUploader {
 		return new UploadResult("imgur", link, deleteUrl, deleteHash);
 	}
 
-	private static UploadResult uploadGyazo(byte[] png, PicPasteConfig config) throws IOException, InterruptedException {
+	private static UploadResult uploadGyazo(byte[] png, SSClipConfig config) throws IOException, InterruptedException {
 		String token = config.gyazoToken();
 		if (token.isBlank()) {
-			throw new IOException("gyazoAccessToken is not set in " + PicPasteConfig.path());
+			throw new IOException("gyazoAccessToken is not set in " + SSClipConfig.path());
 		}
 
-		String boundary = "----picpaste" + UUID.randomUUID().toString().replace("-", "");
+		String boundary = "----ssclip" + UUID.randomUUID().toString().replace("-", "");
 		byte[] body = multipart(boundary, Map.of(), "imagedata", "minecraft.png", "image/png", png);
 
 		HttpRequest request = HttpRequest.newBuilder(URI.create("https://upload.gyazo.com/api/upload"))
 				.timeout(Duration.ofSeconds(120))
 				.header("Authorization", "Bearer " + token)
-				.header("User-Agent", "picpaste/1.0 (Minecraft mod)")
+				.header("User-Agent", "ssclip/1.0 (Minecraft mod)")
 				.header("Content-Type", "multipart/form-data; boundary=" + boundary)
 				.POST(HttpRequest.BodyPublishers.ofByteArray(body))
 				.build();
@@ -152,20 +152,20 @@ public final class ImageUploader {
 		return new UploadResult("gyazo", json.get("url").getAsString(), permalink, imageId);
 	}
 
-	private static UploadResult uploadImgbb(byte[] png, PicPasteConfig config) throws IOException, InterruptedException {
+	private static UploadResult uploadImgbb(byte[] png, SSClipConfig config) throws IOException, InterruptedException {
 		String key = config.imgbbKey();
 		if (key.isBlank()) {
-			throw new IOException("imgbbApiKey is not set in " + PicPasteConfig.path());
+			throw new IOException("imgbbApiKey is not set in " + SSClipConfig.path());
 		}
 
-		String boundary = "----picpaste" + UUID.randomUUID().toString().replace("-", "");
+		String boundary = "----ssclip" + UUID.randomUUID().toString().replace("-", "");
 		byte[] body = multipart(boundary, Map.of(), "image", "minecraft.png", "image/png", png);
 		String endpoint = "https://api.imgbb.com/1/upload?key="
 				+ java.net.URLEncoder.encode(key, StandardCharsets.UTF_8);
 
 		HttpRequest request = HttpRequest.newBuilder(URI.create(endpoint))
 				.timeout(Duration.ofSeconds(120))
-				.header("User-Agent", "picpaste/1.0 (Minecraft mod)")
+				.header("User-Agent", "ssclip/1.0 (Minecraft mod)")
 				.header("Content-Type", "multipart/form-data; boundary=" + boundary)
 				.POST(HttpRequest.BodyPublishers.ofByteArray(body))
 				.build();
@@ -197,14 +197,14 @@ public final class ImageUploader {
 	}
 
 	private static UploadResult uploadGzo(byte[] png) throws IOException, InterruptedException {
-		String boundary = "----picpaste" + UUID.randomUUID().toString().replace("-", "");
+		String boundary = "----ssclip" + UUID.randomUUID().toString().replace("-", "");
 		Map<String, String> fields = new LinkedHashMap<>();
 		fields.put("ttl", "86400");
 		byte[] body = multipart(boundary, fields, "image", "minecraft.png", "image/png", png);
 
 		HttpRequest request = HttpRequest.newBuilder(URI.create("https://gzo.ai/3/image"))
 				.timeout(Duration.ofSeconds(120))
-				.header("User-Agent", "picpaste/1.0 (Minecraft mod)")
+				.header("User-Agent", "ssclip/1.0 (Minecraft mod)")
 				.header("Accept", "application/json")
 				.header("Content-Type", "multipart/form-data; boundary=" + boundary)
 				.POST(HttpRequest.BodyPublishers.ofByteArray(body))
@@ -243,14 +243,14 @@ public final class ImageUploader {
 	}
 
 	private static UploadResult uploadCatbox(byte[] png) throws IOException, InterruptedException {
-		String boundary = "----picpaste" + UUID.randomUUID().toString().replace("-", "");
+		String boundary = "----ssclip" + UUID.randomUUID().toString().replace("-", "");
 		Map<String, String> fields = new LinkedHashMap<>();
 		fields.put("reqtype", "fileupload");
 		byte[] body = multipart(boundary, fields, "fileToUpload", "minecraft.png", "image/png", png);
 
 		HttpRequest request = HttpRequest.newBuilder(URI.create("https://catbox.moe/user/api.php"))
 				.timeout(Duration.ofSeconds(120))
-				.header("User-Agent", "picpaste/1.0 (Minecraft mod)")
+				.header("User-Agent", "ssclip/1.0 (Minecraft mod)")
 				.header("Content-Type", "multipart/form-data; boundary=" + boundary)
 				.POST(HttpRequest.BodyPublishers.ofByteArray(body))
 				.build();

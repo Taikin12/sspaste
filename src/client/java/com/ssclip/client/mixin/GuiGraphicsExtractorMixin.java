@@ -1,9 +1,9 @@
-package com.picpaste.client.mixin;
+package com.ssclip.client.mixin;
 
-import com.picpaste.client.PicPasteTextures;
-import com.picpaste.client.PicPasteUrls;
-import com.picpaste.client.PicPasteClient;
-import com.picpaste.client.PicPasteConfig;
+import com.ssclip.client.SSClipTextures;
+import com.ssclip.client.SSClipUrls;
+import com.ssclip.client.SSClipClient;
+import com.ssclip.client.SSClipConfig;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.gui.Font;
@@ -24,24 +24,24 @@ public abstract class GuiGraphicsExtractorMixin {
 			method = "componentHoverEffect(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Style;II)V",
 			at = @At("HEAD"),
 			cancellable = true)
-	private void picpaste$renderImageTooltip(Font font, Style style, int mouseX, int mouseY, CallbackInfo ci) {
-		PicPasteConfig config = PicPasteClient.config();
+	private void ssclip$renderImageTooltip(Font font, Style style, int mouseX, int mouseY, CallbackInfo ci) {
+		SSClipConfig config = SSClipClient.config();
 		if (config != null && !config.showChatImagePreviews) {
 			return;
 		}
 
-		String url = PicPasteUrls.hoveredImageUrl(style);
+		String url = SSClipUrls.hoveredImageUrl(style);
 		if (url == null) {
 			return;
 		}
 
-		PicPasteTextures.Gallery gallery = PicPasteTextures.getGallery(url);
+		SSClipTextures.Gallery gallery = SSClipTextures.getGallery(url);
 		if (gallery == null) {
 			return;
 		}
 
-		List<PicPasteTextures.Entry> ready = new ArrayList<>();
-		for (PicPasteTextures.Entry entry : gallery.entries()) {
+		List<SSClipTextures.Entry> ready = new ArrayList<>();
+		for (SSClipTextures.Entry entry : gallery.entries()) {
 			if (entry.isReady() && entry.id() != null) {
 				ready.add(entry);
 			}
@@ -81,7 +81,7 @@ public abstract class GuiGraphicsExtractorMixin {
 		graphics.fill(x + gridWidth + 3, y - 4, x + gridWidth + 4, y + gridHeight + 4, 0xFF7F3FBF);
 
 		for (int i = 0; i < count; i++) {
-			PicPasteTextures.Entry entry = ready.get(i);
+			SSClipTextures.Entry entry = ready.get(i);
 			int column = i % columns;
 			int row = i / columns;
 			int cellX = x + column * (cellWidth + gap);

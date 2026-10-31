@@ -1,4 +1,4 @@
-package com.picpaste.client;
+package com.ssclip.client;
 
 import java.net.URI;
 import java.util.Locale;
@@ -14,8 +14,8 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.contents.PlainTextContents;
 import net.minecraft.network.chat.contents.TranslatableContents;
 
-public final class PicPasteUrls {
-	public static final String HOVER_KEY = "picpaste.image_hover";
+public final class SSClipUrls {
+	public static final String HOVER_KEY = "ssclip.image_hover";
 
 	private static final Pattern URL_PATTERN = Pattern.compile("https?://[^\\s<>\"']+");
 	private static final Set<String> IMAGE_HOSTS = Set.of(
@@ -25,7 +25,7 @@ public final class PicPasteUrls {
 			"gzo.ai",
 			"files.catbox.moe", "catbox.moe");
 
-	private PicPasteUrls() {
+	private SSClipUrls() {
 	}
 
 	public static boolean hasImageUrl(String text) {

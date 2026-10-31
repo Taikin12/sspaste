@@ -9,5 +9,5 @@ pluginManagement {
 	}
 }
 
-// Should match your picpaste
-rootProject.name = 'picpaste'
+// Should match your ssclip
+rootProject.name = 'ssclip'

@@ -1,4 +1,4 @@
-package com.picpaste.client;
+package com.ssclip.client;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,7 +10,7 @@ public final class ScreenshotClipboard {
 	}
 
 	public static void onSaved(File file) {
-		PicPasteConfig config = PicPasteClient.config();
+		SSClipConfig config = SSClipClient.config();
 		if (config != null && !config.copyScreenshotToClipboard) {
 			return;
 		}
@@ -30,7 +30,7 @@ public final class ScreenshotClipboard {
 				ClipboardImages.write(image);
 			}
 		} catch (Exception e) {
-			PicPasteClient.LOGGER.debug("Could not copy screenshot to the clipboard: {}", file, e);
+			SSClipClient.LOGGER.debug("Could not copy screenshot to the clipboard: {}", file, e);
 		}
 	}
 }

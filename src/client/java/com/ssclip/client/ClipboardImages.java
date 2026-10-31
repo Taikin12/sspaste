@@ -1,4 +1,4 @@
-package com.picpaste.client;
+package com.ssclip.client;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
@@ -33,7 +33,7 @@ public final class ClipboardImages {
 			ImageTransferable transferable = new ImageTransferable(image);
 			clipboard.setContents(transferable, transferable);
 		} catch (Throwable t) {
-			PicPasteClient.LOGGER.debug("Could not write an image to the clipboard", t);
+			SSClipClient.LOGGER.debug("Could not write an image to the clipboard", t);
 		}
 	}
 
@@ -90,7 +90,7 @@ public final class ClipboardImages {
 				}
 			}
 		} catch (Throwable t) {
-			PicPasteClient.LOGGER.debug("Could not read an image from the clipboard", t);
+			SSClipClient.LOGGER.debug("Could not read an image from the clipboard", t);
 		}
 		return Optional.empty();
 	}

@@ -1,4 +1,4 @@
-package com.picpaste.client;
+package com.ssclip.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,11 +9,12 @@ import java.nio.file.Path;
 import java.util.Locale;
 import net.fabricmc.loader.api.FabricLoader;
 
-public final class PicPasteConfig {
+public final class SSClipConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-	private static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve("picpaste.json");
-	private static final Path LEGACY_PATH = FabricLoader.getInstance().getConfigDir().resolve("chatimageuploader.json");
-	private static final Path OLDER_PATH = FabricLoader.getInstance().getConfigDir().resolve("chatimgur.json");
+	private static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve("ssclip.json");
+	private static final Path LEGACY_PATH = FabricLoader.getInstance().getConfigDir().resolve("picpaste.json");
+	private static final Path OLDER_PATH = FabricLoader.getInstance().getConfigDir().resolve("chatimageuploader.json");
+	private static final Path OLDEST_PATH = FabricLoader.getInstance().getConfigDir().resolve("chatimgur.json");
 
 	public String uploader = "catbox";
 	public String imgurClientId = "";
@@ -32,29 +33,31 @@ public final class PicPasteConfig {
 		return PATH;
 	}
 
-	public static PicPasteConfig load() {
-		PicPasteConfig config = new PicPasteConfig();
+	public static SSClipConfig load() {
+		SSClipConfig config = new SSClipConfig();
 
 		if (!Files.exists(PATH)) {
-			Path source = Files.exists(LEGACY_PATH) ? LEGACY_PATH : (Files.exists(OLDER_PATH) ? OLDER_PATH : null);
+			Path source = Files.exists(LEGACY_PATH) ? LEGACY_PATH
+					: (Files.exists(OLDER_PATH) ? OLDER_PATH
+					: (Files.exists(OLDEST_PATH) ? OLDEST_PATH : null));
 			if (source != null) {
 				try {
 					Files.createDirectories(PATH.getParent());
 					Files.copy(source, PATH);
 				} catch (IOException e) {
-					PicPasteClient.LOGGER.warn("Could not migrate {}", source, e);
+					SSClipClient.LOGGER.warn("Could not migrate {}", source, e);
 				}
 			}
 		}
 
 		if (Files.exists(PATH)) {
 			try {
-				PicPasteConfig loaded = GSON.fromJson(Files.readString(PATH, StandardCharsets.UTF_8), PicPasteConfig.class);
+				SSClipConfig loaded = GSON.fromJson(Files.readString(PATH, StandardCharsets.UTF_8), SSClipConfig.class);
 				if (loaded != null) {
 					config = loaded;
 				}
 			} catch (Exception e) {
-				PicPasteClient.LOGGER.warn("Could not read {}; using defaults", PATH, e);
+				SSClipClient.LOGGER.warn("Could not read {}; using defaults", PATH, e);
 			}
 		}
 
@@ -84,7 +87,7 @@ public final class PicPasteConfig {
 			Files.createDirectories(PATH.getParent());
 			Files.writeString(PATH, GSON.toJson(this) + System.lineSeparator(), StandardCharsets.UTF_8);
 		} catch (IOException e) {
-			PicPasteClient.LOGGER.warn("Could not write {}", PATH, e);
+			SSClipClient.LOGGER.warn("Could not write {}", PATH, e);
 		}
 	}
 
@@ -117,8 +120,8 @@ public final class PicPasteConfig {
 		chatImageTextureHeight = Math.clamp(chatImageTextureHeight, 180, 1080);
 	}
 
-	private static String env(String primary, String second, String third, String fallback) {
-		for (String name : new String[]{primary, second, third, fallback}) {
+	private static String env(String... names) {
+		for (String name : names) {
 			String value = System.getenv(name);
 			if (value != null && !value.isBlank()) {
 				return value.trim();
@@ -131,7 +134,7 @@ public final class PicPasteConfig {
 		if (!imgurClientId.isBlank()) {
 			return imgurClientId;
 		}
-		return env("PICPASTE_CLIENT_ID", "CHATIMAGEUPLOADER_CLIENT_ID", "CHATIMGUR_CLIENT_ID", "IMGUR_CLIENT_ID");
+		return env("SSCLIP_CLIENT_ID", "PICPASTE_CLIENT_ID", "CHATIMAGEUPLOADER_CLIENT_ID", "CHATIMGUR_CLIENT_ID", "IMGUR_CLIENT_ID");
 	}
 
 	public boolean hasImgurClientId() {
@@ -142,14 +145,14 @@ public final class PicPasteConfig {
 		if (!gyazoAccessToken.isBlank()) {
 			return gyazoAccessToken;
 		}
-		return env("PICPASTE_GYAZO_TOKEN", "CHATIMAGEUPLOADER_GYAZO_TOKEN", "CHATIMGUR_GYAZO_TOKEN", "GYAZO_ACCESS_TOKEN");
+		return env("SSCLIP_GYAZO_TOKEN", "PICPASTE_GYAZO_TOKEN", "CHATIMAGEUPLOADER_GYAZO_TOKEN", "CHATIMGUR_GYAZO_TOKEN", "GYAZO_ACCESS_TOKEN");
 	}
 
 	public String imgbbKey() {
 		if (!imgbbApiKey.isBlank()) {
 			return imgbbApiKey;
 		}
-		return env("PICPASTE_IMGBB_API_KEY", "CHATIMAGEUPLOADER_IMGBB_API_KEY", "CHATIMGUR_IMGBB_API_KEY", "IMGBB_API_KEY");
+		return env("SSCLIP_IMGBB_API_KEY", "PICPASTE_IMGBB_API_KEY", "CHATIMAGEUPLOADER_IMGBB_API_KEY", "CHATIMGUR_IMGBB_API_KEY", "IMGBB_API_KEY");
 	}
 
 	public String resolvedUploader() {

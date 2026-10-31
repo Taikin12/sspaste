@@ -19,7 +19,7 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"picpaste" {
+		"ssclip" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}

@@ -1,26 +1,26 @@
 {
 	"schemaVersion": 1,
-	"id": "picpaste",
+	"id": "ssclip",
 	"version": "${version}",
-	"name": "PicPaste",
-	"description": "Paste images into Minecraft chat: upload them and insert the URL. Also previews image links in chat.",
+	"name": "SSclip",
+	"description": "SSclip: paste screenshots/images into Minecraft chat, upload them, and preview image links.",
 	"authors": [
 		"Taikin"
 	],
 	"license": "CC0-1.0",
-	"icon": "assets/picpaste/icon.png",
+	"icon": "assets/ssclip/icon.png",
 	"environment": "client",
 	"entrypoints": {
 		"client": [
-			"com.picpaste.client.PicPasteClient"
+			"com.ssclip.client.SSClipClient"
 		],
 		"modmenu": [
-			"com.picpaste.client.ModMenuIntegration"
+			"com.ssclip.client.ModMenuIntegration"
 		]
 	},
 	"mixins": [
 		{
-			"config": "picpaste.client.mixins.json",
+			"config": "ssclip.client.mixins.json",
 			"environment": "client"
 		}
 	],
