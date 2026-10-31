@@ -30,10 +30,10 @@ copied to the system clipboard automatically.
 | `gyazo`           | Gyazo (access token) |
 | `imgbb`           | ImgBB (API key) |
 | `gzo`             | gzo.ai anonymous (no key, expires after 24 hours) |
-| `imgur`           | Imgur (existing Client-ID or access token only) |
+| `imgur`           | Imgur (existing Client-ID only) |
 
-Imgur still works if you already have a Client-ID or a temporary access token
-(the Siki method); new Client-ID registration is currently closed.
+Imgur still works if you already have a Client-ID; new Client-ID registration
+is currently closed.
 
 Gyazo requires an **access token**: create an application at
 <https://gyazo.com/oauth/applications> and generate one. Uploads are saved to
@@ -45,8 +45,7 @@ permanent.
 gzo.ai works anonymously without a key and is selectable explicitly. Uploads
 expire after 24 hours (the logged-in 7-day mode is not implemented).
 
-imgbox has no public upload API (Siki uses its web upload page), so it is not
-supported for automatic upload.
+imgbox has no public upload API, so it is not supported for automatic upload.
 
 Config file: `config/picpaste.json` (created on first launch). If Mod Menu
 and Cloth Config are installed, the same settings are available from
@@ -57,7 +56,6 @@ language (English/Japanese) and includes a clickable Gyazo token link.
 {
   "uploader": "catbox",
   "imgurClientId": "",
-  "imgurAccessToken": "",
   "gyazoAccessToken": "",
   "imgbbApiKey": "",
   "maxUploadMegabytes": 10,
@@ -72,19 +70,18 @@ language (English/Japanese) and includes a clickable Gyazo token link.
 ```
 
 The Imgur Client-ID can also come from `PICPASTE_CLIENT_ID` or
-`IMGUR_CLIENT_ID`, and the Imgur access token from
-`PICPASTE_IMGUR_ACCESS_TOKEN` or `IMGUR_ACCESS_TOKEN`. The Gyazo token can
-come from `PICPASTE_GYAZO_TOKEN` or `GYAZO_ACCESS_TOKEN`. The ImgBB key can
-come from `PICPASTE_IMGBB_API_KEY` or `IMGBB_API_KEY`.
+`IMGUR_CLIENT_ID`. The Gyazo token can come from `PICPASTE_GYAZO_TOKEN` or
+`GYAZO_ACCESS_TOKEN`. The ImgBB key can come from `PICPASTE_IMGBB_API_KEY` or
+`IMGBB_API_KEY`.
 
 ## Chat image previews
 
 Direct image URLs and extensionless viewer pages from Imgur, Gyazo, ImgBB,
 gzo.ai, and Catbox are previewed when you hover over them in chat. Viewer pages are resolved to the actual image
 via Open Graph tags / known URL patterns. Clicking the URL still opens it in
-the browser. Imgur albums/galleries with a configured Client-ID or access token
-show up to 4 images in a 2x2 grid (with "+N" for the rest); without Imgur
-credentials only the cover image is previewed. Only HTTPS URLs are loaded, up
+the browser. Imgur albums/galleries with a configured Client-ID show up to 4 images in a
+2x2 grid (with "+N" for the rest); without an Imgur Client-ID only the cover
+image is previewed. Only HTTPS URLs are loaded, up
 to 8 MB; previews are
 downloaded/scaled to a high-resolution texture (1280x720 by default) and drawn
 at a smaller display size (160x100 by default) with linear filtering. Both are
@@ -92,10 +89,6 @@ separately adjustable in the config screen (`chatImagePreviewWidth`/`Height`
 for the display, `chatImageTextureWidth`/`Height` for the texture resolution).
 Higher texture resolution looks sharper but uses more memory. Disable previews
 entirely with `showChatImagePreviews`.
-
-## Credits
-
-- Imgur temporary-token method documented by the [Siki wiki](https://wikiwiki.jp/siki-app/).
 
 ## Disclaimer
 
@@ -128,5 +121,5 @@ folder to avoid duplicates.
 
 ```sh
 ./gradlew build
-# -> build/libs/picpaste-2.6.1.jar
+# -> build/libs/picpaste-2.7.0.jar
 ```

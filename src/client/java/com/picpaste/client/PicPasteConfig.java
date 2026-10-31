@@ -17,7 +17,6 @@ public final class PicPasteConfig {
 
 	public String uploader = "catbox";
 	public String imgurClientId = "";
-	public String imgurAccessToken = "";
 	public String gyazoAccessToken = "";
 	public String imgbbApiKey = "";
 	public int maxUploadMegabytes = 10;
@@ -103,10 +102,6 @@ public final class PicPasteConfig {
 			imgurClientId = "";
 		}
 		imgurClientId = imgurClientId.trim();
-		if (imgurAccessToken == null) {
-			imgurAccessToken = "";
-		}
-		imgurAccessToken = imgurAccessToken.trim();
 		if (gyazoAccessToken == null) {
 			gyazoAccessToken = "";
 		}
@@ -139,15 +134,8 @@ public final class PicPasteConfig {
 		return env("PICPASTE_CLIENT_ID", "CHATIMAGEUPLOADER_CLIENT_ID", "CHATIMGUR_CLIENT_ID", "IMGUR_CLIENT_ID");
 	}
 
-	public String imgurToken() {
-		if (!imgurAccessToken.isBlank()) {
-			return imgurAccessToken;
-		}
-		return env("PICPASTE_IMGUR_ACCESS_TOKEN", "CHATIMAGEUPLOADER_IMGUR_ACCESS_TOKEN", "CHATIMGUR_IMGUR_ACCESS_TOKEN", "IMGUR_ACCESS_TOKEN");
-	}
-
-	public boolean hasImgurAuth() {
-		return !clientId().isBlank() || !imgurToken().isBlank();
+	public boolean hasImgurClientId() {
+		return !clientId().isBlank();
 	}
 
 	public String gyazoToken() {
@@ -180,7 +168,7 @@ public final class PicPasteConfig {
 		if (uploader.equals("catbox")) {
 			return "catbox";
 		}
-		if (hasImgurAuth()) {
+		if (hasImgurClientId()) {
 			return "imgur";
 		}
 		if (!gyazoToken().isBlank()) {

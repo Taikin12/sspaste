@@ -72,16 +72,11 @@ public final class ImageUploader {
 	}
 
 	private static UploadResult uploadImgur(byte[] png, PicPasteConfig config) throws IOException, InterruptedException {
-		String accessToken = config.imgurToken();
 		String clientId = config.clientId();
-		String authorization;
-		if (!accessToken.isBlank()) {
-			authorization = "Bearer " + accessToken;
-		} else if (!clientId.isBlank()) {
-			authorization = "Client-ID " + clientId;
-		} else {
-			throw new IOException("imgurClientId / imgurAccessToken is not set in " + PicPasteConfig.path());
+		if (clientId.isBlank()) {
+			throw new IOException("imgurClientId is not set in " + PicPasteConfig.path());
 		}
+		String authorization = "Client-ID " + clientId;
 
 		String boundary = "----picpaste" + UUID.randomUUID().toString().replace("-", "");
 		byte[] body = multipart(boundary, Map.of(), "image", "minecraft.png", "image/png", png);

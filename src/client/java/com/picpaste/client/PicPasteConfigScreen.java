@@ -11,10 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 
 public final class PicPasteConfigScreen {
-	private static final URI IMGUR_TOKEN_HELP_URL = URI.create(
-			"https://wikiwiki.jp/siki-app/%E3%81%9F%E3%81%BE%E3%81%AB%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F/"
-					+ "%E7%94%BB%E5%83%8F%E3%83%BB%E5%8B%95%E7%94%BB%E3%83%BB%E3%83%A1%E3%83%87%E3%82%A3%E3%82%A2"
-					+ "#no-more-anon-imgur");
 	private static final URI GYAZO_APPS_URL = URI.create("https://gyazo.com/oauth/applications");
 	private static final URI IMGBB_API_URL = URI.create("https://api.imgbb.com/");
 	private static final URI GZO_API_URL = URI.create("https://gzo.ai/docs/api");
@@ -132,20 +128,6 @@ public final class PicPasteConfigScreen {
 		upload.addEntry(eb.startTextDescription(
 						Component.translatable("picpaste.config.client_id.note"))
 				.build());
-		upload.addEntry(eb.startStrField(Component.translatable("picpaste.config.imgur_token"),
-						config.imgurAccessToken)
-				.setDefaultValue("")
-				.setSaveConsumer(v -> config.imgurAccessToken = v == null ? "" : v.trim())
-				.setTooltip(Component.translatable("picpaste.config.imgur_token.tooltip"))
-				.build());
-		upload.addEntry(eb.startTextDescription(
-						Component.translatable("picpaste.config.imgur_token.link",
-								link(IMGUR_TOKEN_HELP_URL, "picpaste.config.imgur_token.link_hover")))
-				.build());
-		upload.addEntry(eb.startTextDescription(
-						Component.translatable("picpaste.config.imgur_token.note"))
-				.build());
-
 		return builder.build();
 	}
 

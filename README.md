@@ -21,14 +21,14 @@ Minecraft 26.3 用のクライアントサイド Fabric MOD です。チャッ�
 | `gyazo` | Gyazo（アクセストークン） |
 | `imgbb` | ImgBB（API キー） |
 | `gzo` | gzo.ai 匿名（キー不要、24 時間で消える） |
-| `imgur` | Imgur（既存の Client-ID または一時アクセストークンがある場合のみ） |
+| `imgur` | Imgur（既存の Client-ID がある場合のみ） |
 
-Imgur は新規 Client-ID 登録が停止しているため、既存の Client-ID か一時アクセストークン（Siki 方式）が必要です。
+Imgur は新規 Client-ID 登録が停止しているため、既存の Client-ID が必要です。
 
 - **Gyazo**: <https://gyazo.com/oauth/applications> でアプリを作成し、アクセストークンを発行します。画像は Gyazo アカウントに保存されます。
 - **ImgBB**: <https://api.imgbb.com/> で無料 API キーを取得します。アップロードは恒久的です。
 - **gzo.ai**: キー不要。明示的に選択すると使えます。24 時間で消えます（ログイン時の 7 日保存は未実装）。
-- **imgbox**: 公開アップロード API がないため非対応です（Siki も Web 版のみ）。
+- **imgbox**: 公開アップロード API がないため非対応です。
 - **Catbox**: キー不要。デフォルトのアップロード先です。
 
 設定ファイル: `config/picpaste.json`（初回起動時に生成）。Mod Menu と Cloth Config が入っている場合は **Mod Menu > PicPaste > Config** からも設定できます。画面はゲーム言語（日本語/英語）に追従し、Gyazo トークン取得へのリンクも表示します。
@@ -37,7 +37,6 @@ Imgur は新規 Client-ID 登録が停止しているため、既存の Client-I
 {
   "uploader": "catbox",
   "imgurClientId": "",
-  "imgurAccessToken": "",
   "gyazoAccessToken": "",
   "imgbbApiKey": "",
   "maxUploadMegabytes": 10,
@@ -54,7 +53,6 @@ Imgur は新規 Client-ID 登録が停止しているため、既存の Client-I
 環境変数でも設定できます（旧 `CHATIMAGEUPLOADER_*` / `CHATIMGUR_*` も読みます）。
 
 - Imgur Client-ID: `PICPASTE_CLIENT_ID`
-- Imgur アクセストークン: `PICPASTE_IMGUR_ACCESS_TOKEN`
 - Gyazo: `PICPASTE_GYAZO_TOKEN`
 - ImgBB: `PICPASTE_IMGBB_API_KEY`
 
@@ -62,13 +60,9 @@ Imgur は新規 Client-ID 登録が停止しているため、既存の Client-I
 
 Imgur / Gyazo / ImgBB / gzo.ai / Catbox の直リンクと、拡張子なしのページ URL に対応しています。ページ URL は OGP（`og:image`）や既知の URL パターンから実画像を解決します。URL をクリックするとブラウザで開きます。
 
-Imgur のアルバム／ギャラリーは、Client-ID またはアクセストークンが設定されている場合に最大 4 枚を 2x2 グリッドで表示します（5 枚以上は「+N」）。認証情報がない場合はカバー画像 1 枚のみです。
+Imgur のアルバム／ギャラリーは、Client-ID が設定されている場合に最大 4 枚を 2x2 グリッドで表示します（5 枚以上は「+N」）。認証情報がない場合はカバー画像 1 枚のみです。
 
 HTTPS のみ、最大 8 MB。プレビュー画像は高解像度テクスチャ（デフォルト 1280x720）として取得し、小さい表示サイズ（デフォルト 160x100）にリニアフィルタで縮小します。表示サイズとテクスチャ解像度は設定画面で個別に変更できます（`chatImagePreviewWidth` / `chatImagePreviewHeight`、`chatImageTextureWidth` / `chatImageTextureHeight`）。テクスチャ解像度を上げるほどシャープになりますが、メモリ使用量が増えます。プレビュー自体は `showChatImagePreviews` で無効化できます。
-
-## クレジット
-
-- Imgur の一時トークン方式は [Siki wiki](https://wikiwiki.jp/siki-app/) を参考にしています。
 
 ## 免責
 
@@ -92,5 +86,5 @@ MOD ID は `picpaste` です。既存の `config/chatimageuploader.json` また�
 
 ```sh
 ./gradlew build
-# -> build/libs/picpaste-2.6.1.jar
+# -> build/libs/picpaste-2.7.0.jar
 ```

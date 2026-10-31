@@ -18,7 +18,7 @@
 	"picpaste.config.uploader": "Uploader",
 	"picpaste.config.uploader.auto": "Auto",
 	"picpaste.config.uploader.catbox": "catbox.moe",
-	"picpaste.config.uploader.tooltip": "Auto: Imgur if configured, then Gyazo, then ImgBB, otherwise catbox.moe.",
+	"picpaste.config.uploader.tooltip": "Auto: Imgur Client-ID if set, then Gyazo, then ImgBB, otherwise catbox.moe.",
 	"picpaste.config.uploader.gyazo": "Gyazo",
 	"picpaste.config.gyazo_token": "Gyazo access token",
 	"picpaste.config.gyazo_token.tooltip": "Create an application on the Gyazo developer dashboard and generate an access token.",
@@ -48,10 +48,5 @@
 	"picpaste.config.uploader.imgur": "Imgur",
 	"picpaste.config.client_id": "Imgur Client-ID",
 	"picpaste.config.client_id.tooltip": "Only for existing Imgur applications. New Client-ID registration is currently closed.",
-	"picpaste.config.client_id.note": "If you already have an Imgur Client-ID, set it here. Otherwise use the access token below.",
-	"picpaste.config.imgur_token": "Imgur access token",
-	"picpaste.config.imgur_token.tooltip": "Optional temporary token from a logged-in Imgur browser session. Used as Authorization: Bearer.",
-	"picpaste.config.imgur_token.link": "How to get an Imgur access token (Siki wiki): %s",
-	"picpaste.config.imgur_token.link_hover": "Open the Siki wiki page for the Imgur token method",
-	"picpaste.config.imgur_token.note": "The token stops working when the browser session ends. Get a new one and update it."
+	"picpaste.config.client_id.note": "If you already have an Imgur Client-ID, set it here."
 }

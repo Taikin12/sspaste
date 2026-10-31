@@ -307,15 +307,8 @@ public final class PicPasteTextures {
 		if (config == null) {
 			return null;
 		}
-		String token = config.imgurToken();
-		if (!token.isBlank()) {
-			return "Bearer " + token;
-		}
 		String clientId = config.clientId();
-		if (!clientId.isBlank()) {
-			return "Client-ID " + clientId;
-		}
-		return null;
+		return clientId.isBlank() ? null : "Client-ID " + clientId;
 	}
 
 	public static void clear() {

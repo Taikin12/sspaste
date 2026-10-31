@@ -18,7 +18,7 @@
 	"picpaste.config.uploader": "アップロード先",
 	"picpaste.config.uploader.auto": "自動",
 	"picpaste.config.uploader.catbox": "catbox.moe",
-	"picpaste.config.uploader.tooltip": "自動: Imgur → Gyazo → ImgBB → catbox.moe の順で使います。",
+	"picpaste.config.uploader.tooltip": "自動: Imgur Client-ID → Gyazo → ImgBB → catbox.moe の順で使います。",
 	"picpaste.config.uploader.gyazo": "Gyazo",
 	"picpaste.config.gyazo_token": "Gyazoアクセストークン",
 	"picpaste.config.gyazo_token.tooltip": "Gyazoの開発者ダッシュボードでアプリを作成し、アクセストークンを発行してください。",
@@ -48,10 +48,5 @@
 	"picpaste.config.uploader.imgur": "Imgur",
 	"picpaste.config.client_id": "Imgur Client-ID",
 	"picpaste.config.client_id.tooltip": "既存のImgurアプリ用です。新規Client-ID登録は現在停止しています。",
-	"picpaste.config.client_id.note": "既存のImgur Client-IDがある場合のみ設定してください。無ければ下のアクセストークンを使います。",
-	"picpaste.config.imgur_token": "Imgurアクセストークン",
-	"picpaste.config.imgur_token.tooltip": "任意。ImgurにログインしたブラウザのCookieから取得する一時トークン。Authorization: Bearer として使用します。",
-	"picpaste.config.imgur_token.link": "Imgurアクセストークンの取得方法 (Siki wiki): %s",
-	"picpaste.config.imgur_token.link_hover": "Siki wikiのImgurトークン取得手順を開く",
-	"picpaste.config.imgur_token.note": "ブラウザのセッションが切れると使えなくなります。再取得して設定し直してください。"
+	"picpaste.config.client_id.note": "既存のImgur Client-IDがある場合のみ設定してください。"
 }
