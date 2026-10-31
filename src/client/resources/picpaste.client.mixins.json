@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "com.picpaste.client.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"ChatComponentMixin",
+		"ChatScreenMixin",
+		"GuiGraphicsExtractorMixin",
+		"NativeImageMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
