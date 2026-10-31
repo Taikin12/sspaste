@@ -1,10 +1,10 @@
-# SSclip
+# SS Paste
 
 [English](README_EN.md) | 日本語
 
 Minecraft 26.3 用のクライアントサイド Fabric MOD です。チャット欄で `Ctrl+V`（Mac は `Cmd+V`）すると、クリップボードの画像をアップロードして URL を入力欄に挿入します。F2 スクリーンショット（F1 で HUD を消したものも含む）は自動でシステムクリップボードにもコピーされます。
 
-![SSclip demo](docs/ssclip-demo.gif)
+![SS Paste demo](docs/sspaste-demo.gif)
 
 - クリップボードにテキストがある場合は、通常のテキスト貼り付けを優先します。
 - ビットマップ画像（`DataFlavor.imageFlavor` / `image/png`）と画像ファイルに対応しています。
@@ -31,7 +31,7 @@ Imgur は新規 Client-ID 登録が停止しているため、既存の Client-I
 - **imgbox**: 公開アップロード API がないため非対応です。
 - **Catbox**: キー不要。デフォルトのアップロード先です。
 
-設定ファイル: `config/ssclip.json`（初回起動時に生成）。Mod Menu と Cloth Config が入っている場合は **Mod Menu > SSclip > Config** からも設定できます。画面はゲーム言語（日本語/英語）に追従し、Gyazo トークン取得へのリンクも表示します。
+設定ファイル: `config/sspaste.json`（初回起動時に生成）。Mod Menu と Cloth Config が入っている場合は **Mod Menu > SS Paste > Config** からも設定できます。画面はゲーム言語（日本語/英語）に追従し、Gyazo トークン取得へのリンクも表示します。
 
 ```json
 {
@@ -52,9 +52,9 @@ Imgur は新規 Client-ID 登録が停止しているため、既存の Client-I
 
 環境変数でも設定できます（旧 `CHATIMAGEUPLOADER_*` / `CHATIMGUR_*` も読みます）。
 
-- Imgur Client-ID: `SSCLIP_CLIENT_ID`
-- Gyazo: `SSCLIP_GYAZO_TOKEN`
-- ImgBB: `SSCLIP_IMGBB_API_KEY`
+- Imgur Client-ID: `SSPASTE_CLIENT_ID`
+- Gyazo: `SSPASTE_GYAZO_TOKEN`
+- ImgBB: `SSPASTE_IMGBB_API_KEY`
 
 ## チャット画像プレビュー
 
@@ -70,26 +70,26 @@ HTTPS のみ、最大 8 MB。プレビュー画像は高解像度テクスチャ
 
 ## プライバシー
 
-アップロードした画像は選択した第三者のホストに送信され、公開 URL になります。トークンや API キーは `config/ssclip.json` にローカル保存され、選択したホストにのみ送信されます。アップロード履歴（画像URL・削除リンク）も `config/` にローカル保存されます。チャットプレビューは対応ホストから画像を取得します。作者にデータは送信されません。
+アップロードした画像は選択した第三者のホストに送信され、公開 URL になります。トークンや API キーは `config/sspaste.json` にローカル保存され、選択したホストにのみ送信されます。アップロード履歴（画像URL・削除リンク）も `config/` にローカル保存されます。チャットプレビューは対応ホストから画像を取得します。作者にデータは送信されません。
 
 ## 移行
 
-MOD ID は `ssclip` です。既存の `config/chatimageuploader.json` または `config/chatimgur.json` は `config/ssclip.json` に自動コピーされます。古い `chatimageuploader-*.jar` / `chatimgur-*.jar` は mods フォルダから削除してください。
+MOD ID は `sspaste` です。既存の `config/chatimageuploader.json` または `config/chatimgur.json` は `config/sspaste.json` に自動コピーされます。古い `chatimageuploader-*.jar` / `chatimgur-*.jar` は mods フォルダから削除してください。
 
 ## アップロード履歴
 
 アップロードに成功するたびに、画像URLと削除リンク（取得できる場合）をローカルへ保存します。
 
-- `config/ssclip-history.json` — 履歴データ
-- `config/ssclip-history.html` — ブラウザで見る履歴ページ
+- `config/sspaste-history.json` — 履歴データ
+- `config/sspaste-history.html` — ブラウザで見る履歴ページ
 
-新しい順に最大200件。**Mod Menu > SSclip > Config** の「アップロード履歴」リンク、またはHTMLファイルを直接開いてください。
+新しい順に最大200件。**Mod Menu > SS Paste > Config** の「アップロード履歴」リンク、またはHTMLファイルを直接開いてください。
 
 - Imgur / ImgBB / gzo.ai: 削除リンクを記録
 - Gyazo: 画像ページを記録（削除はGyazo上で）
 - Catbox: 削除リンクなし
 
-**削除リンクは秘密情報です。** `ssclip-history.json` / `.html` を他人と共有しないでください。
+**削除リンクは秘密情報です。** `sspaste-history.json` / `.html` を他人と共有しないでください。
 
 ## 注意
 
@@ -101,5 +101,5 @@ MOD ID は `ssclip` です。既存の `config/chatimageuploader.json` または
 
 ```sh
 ./gradlew build
-# -> build/libs/ssclip-3.0.0.jar
+# -> build/libs/sspaste-3.1.0.jar
 ```

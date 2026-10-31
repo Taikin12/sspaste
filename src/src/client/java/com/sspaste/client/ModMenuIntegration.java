@@ -1,4 +1,4 @@
-package com.ssclip.client;
+package com.sspaste.client;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
@@ -11,6 +11,6 @@ public class ModMenuIntegration implements ModMenuApi {
 		if (!FabricLoader.getInstance().isModLoaded("cloth-config")) {
 			return parent -> null;
 		}
-		return SSClipConfigScreen::create;
+		return SSPasteConfigScreen::create;
 	}
 }

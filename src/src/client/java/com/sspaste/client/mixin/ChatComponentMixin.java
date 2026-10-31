@@ -1,7 +1,7 @@
-package com.ssclip.client.mixin;
+package com.sspaste.client.mixin;
 
-import com.ssclip.client.SSClipUrls;
-import com.ssclip.client.SSClipClient;
+import com.sspaste.client.SSPasteUrls;
+import com.sspaste.client.SSPasteClient;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,16 +14,16 @@ public class ChatComponentMixin {
 			method = "addMessage(Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/MessageSignature;Lnet/minecraft/client/multiplayer/chat/GuiMessageSource;Lnet/minecraft/client/multiplayer/chat/GuiMessageTag;)V",
 			at = @At("HEAD"),
 			argsOnly = true)
-	private Component ssclip$addImageHover(Component message) {
+	private Component sspaste$addImageHover(Component message) {
 		if (message == null) {
 			return null;
 		}
-		if (SSClipClient.config() != null && !SSClipClient.config().showChatImagePreviews) {
+		if (SSPasteClient.config() != null && !SSPasteClient.config().showChatImagePreviews) {
 			return message;
 		}
-		if (!SSClipUrls.hasImageUrl(message.getString())) {
+		if (!SSPasteUrls.hasImageUrl(message.getString())) {
 			return message;
 		}
-		return SSClipUrls.transform(message);
+		return SSPasteUrls.transform(message);
 	}
 }

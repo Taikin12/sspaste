@@ -1,4 +1,4 @@
-package com.ssclip.client;
+package com.sspaste.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,13 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import net.fabricmc.loader.api.FabricLoader;
 
-public final class SSClipHistory {
+public final class SSPasteHistory {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Type LIST_TYPE = new TypeToken<List<Entry>>() {
 	}.getType();
 	private static final Path CONFIG_DIR = FabricLoader.getInstance().getConfigDir();
-	private static final Path JSON_PATH = CONFIG_DIR.resolve("ssclip-history.json");
-	private static final Path HTML_PATH = CONFIG_DIR.resolve("ssclip-history.html");
+	private static final Path JSON_PATH = CONFIG_DIR.resolve("sspaste-history.json");
+	private static final Path HTML_PATH = CONFIG_DIR.resolve("sspaste-history.html");
+	private static final Path RECENT_JSON_PATH = CONFIG_DIR.resolve("ssclip-history.json");
 	private static final Path LEGACY_JSON_PATH = CONFIG_DIR.resolve("picpaste-history.json");
 	private static final int MAX_ENTRIES = 200;
 	private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -29,7 +30,7 @@ public final class SSClipHistory {
 	public record Entry(String time, String host, String url, String deleteUrl, String deleteKey) {
 	}
 
-	private SSClipHistory() {
+	private SSPasteHistory() {
 	}
 
 	public static Path htmlPath() {
@@ -41,11 +42,15 @@ public final class SSClipHistory {
 	}
 
 	public static void load() {
-		if (!Files.exists(JSON_PATH) && Files.exists(LEGACY_JSON_PATH)) {
-			try {
-				Files.copy(LEGACY_JSON_PATH, JSON_PATH);
-			} catch (IOException e) {
-				SSClipClient.LOGGER.warn("Could not migrate {}", LEGACY_JSON_PATH, e);
+		if (!Files.exists(JSON_PATH)) {
+			Path source = Files.exists(RECENT_JSON_PATH) ? RECENT_JSON_PATH
+					: (Files.exists(LEGACY_JSON_PATH) ? LEGACY_JSON_PATH : null);
+			if (source != null) {
+				try {
+					Files.copy(source, JSON_PATH);
+				} catch (IOException e) {
+					SSPasteClient.LOGGER.warn("Could not migrate {}", source, e);
+				}
 			}
 		}
 
@@ -61,9 +66,9 @@ public final class SSClipHistory {
 					}
 				} catch (Exception e) {
 					failed = true;
-					SSClipClient.LOGGER.warn("Could not read {}", JSON_PATH, e);
+					SSPasteClient.LOGGER.warn("Could not read {}", JSON_PATH, e);
 					try {
-						Files.copy(JSON_PATH, CONFIG_DIR.resolve("ssclip-history.json.bak"));
+						Files.copy(JSON_PATH, CONFIG_DIR.resolve("sspaste-history.json.bak"));
 					} catch (IOException ignored) {
 					}
 				}
@@ -106,7 +111,7 @@ public final class SSClipHistory {
 			Files.writeString(JSON_PATH, GSON.toJson(copy) + System.lineSeparator(), StandardCharsets.UTF_8);
 			Files.writeString(HTML_PATH, buildHtml(copy), StandardCharsets.UTF_8);
 		} catch (IOException e) {
-			SSClipClient.LOGGER.warn("Could not write upload history", e);
+			SSPasteClient.LOGGER.warn("Could not write upload history", e);
 		}
 	}
 
@@ -114,7 +119,7 @@ public final class SSClipHistory {
 		StringBuilder html = new StringBuilder();
 		html.append("<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n");
 		html.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n");
-		html.append("<title>SSclip アップロード履歴</title>\n");
+		html.append("<title>SS Paste アップロード履歴</title>\n");
 		html.append("<style>\n");
 		html.append(":root{color-scheme:light;--bg:#f7f7f8;--fg:#1a1a1a;--muted:#666;--line:#d0d0d5;--accent:#1e88e5;--danger:#c62828;}\n");
 		html.append("body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,'Segoe UI','Noto Sans JP',sans-serif;line-height:1.6;}\n");
@@ -131,8 +136,8 @@ public final class SSClipHistory {
 		html.append(".muted{color:var(--muted);}\n");
 		html.append("code{background:#eef1f5;padding:1px 4px;border-radius:4px;word-break:break-all;}\n");
 		html.append("</style>\n</head>\n<body>\n<main>\n");
-		html.append("<h1>SSclip アップロード履歴</h1>\n");
-		html.append("<p class=\"warn\">削除リンクは秘密情報です。このファイルや <code>ssclip-history.json</code> を他人と共有しないでください。</p>\n");
+		html.append("<h1>SS Paste アップロード履歴</h1>\n");
+		html.append("<p class=\"warn\">削除リンクは秘密情報です。このファイルや <code>sspaste-history.json</code> を他人と共有しないでください。</p>\n");
 		html.append("<p>新しい順に最大 ").append(MAX_ENTRIES).append(" 件を保存しています。JSON: <code>")
 				.append(escape(JSON_PATH.toString())).append("</code></p>\n");
 

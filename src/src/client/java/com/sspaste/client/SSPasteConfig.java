@@ -1,4 +1,4 @@
-package com.ssclip.client;
+package com.sspaste.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,9 +9,10 @@ import java.nio.file.Path;
 import java.util.Locale;
 import net.fabricmc.loader.api.FabricLoader;
 
-public final class SSClipConfig {
+public final class SSPasteConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-	private static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve("ssclip.json");
+	private static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve("sspaste.json");
+	private static final Path RECENT_PATH = FabricLoader.getInstance().getConfigDir().resolve("ssclip.json");
 	private static final Path LEGACY_PATH = FabricLoader.getInstance().getConfigDir().resolve("picpaste.json");
 	private static final Path OLDER_PATH = FabricLoader.getInstance().getConfigDir().resolve("chatimageuploader.json");
 	private static final Path OLDEST_PATH = FabricLoader.getInstance().getConfigDir().resolve("chatimgur.json");
@@ -33,31 +34,32 @@ public final class SSClipConfig {
 		return PATH;
 	}
 
-	public static SSClipConfig load() {
-		SSClipConfig config = new SSClipConfig();
+	public static SSPasteConfig load() {
+		SSPasteConfig config = new SSPasteConfig();
 
 		if (!Files.exists(PATH)) {
-			Path source = Files.exists(LEGACY_PATH) ? LEGACY_PATH
+			Path source = Files.exists(RECENT_PATH) ? RECENT_PATH
+					: (Files.exists(LEGACY_PATH) ? LEGACY_PATH
 					: (Files.exists(OLDER_PATH) ? OLDER_PATH
-					: (Files.exists(OLDEST_PATH) ? OLDEST_PATH : null));
+					: (Files.exists(OLDEST_PATH) ? OLDEST_PATH : null)));
 			if (source != null) {
 				try {
 					Files.createDirectories(PATH.getParent());
 					Files.copy(source, PATH);
 				} catch (IOException e) {
-					SSClipClient.LOGGER.warn("Could not migrate {}", source, e);
+					SSPasteClient.LOGGER.warn("Could not migrate {}", source, e);
 				}
 			}
 		}
 
 		if (Files.exists(PATH)) {
 			try {
-				SSClipConfig loaded = GSON.fromJson(Files.readString(PATH, StandardCharsets.UTF_8), SSClipConfig.class);
+				SSPasteConfig loaded = GSON.fromJson(Files.readString(PATH, StandardCharsets.UTF_8), SSPasteConfig.class);
 				if (loaded != null) {
 					config = loaded;
 				}
 			} catch (Exception e) {
-				SSClipClient.LOGGER.warn("Could not read {}; using defaults", PATH, e);
+				SSPasteClient.LOGGER.warn("Could not read {}; using defaults", PATH, e);
 			}
 		}
 
@@ -87,7 +89,7 @@ public final class SSClipConfig {
 			Files.createDirectories(PATH.getParent());
 			Files.writeString(PATH, GSON.toJson(this) + System.lineSeparator(), StandardCharsets.UTF_8);
 		} catch (IOException e) {
-			SSClipClient.LOGGER.warn("Could not write {}", PATH, e);
+			SSPasteClient.LOGGER.warn("Could not write {}", PATH, e);
 		}
 	}
 
@@ -134,7 +136,7 @@ public final class SSClipConfig {
 		if (!imgurClientId.isBlank()) {
 			return imgurClientId;
 		}
-		return env("SSCLIP_CLIENT_ID", "PICPASTE_CLIENT_ID", "CHATIMAGEUPLOADER_CLIENT_ID", "CHATIMGUR_CLIENT_ID", "IMGUR_CLIENT_ID");
+		return env("SSPASTE_CLIENT_ID", "SSCLIP_CLIENT_ID", "PICPASTE_CLIENT_ID", "CHATIMAGEUPLOADER_CLIENT_ID", "CHATIMGUR_CLIENT_ID", "IMGUR_CLIENT_ID");
 	}
 
 	public boolean hasImgurClientId() {
@@ -145,14 +147,14 @@ public final class SSClipConfig {
 		if (!gyazoAccessToken.isBlank()) {
 			return gyazoAccessToken;
 		}
-		return env("SSCLIP_GYAZO_TOKEN", "PICPASTE_GYAZO_TOKEN", "CHATIMAGEUPLOADER_GYAZO_TOKEN", "CHATIMGUR_GYAZO_TOKEN", "GYAZO_ACCESS_TOKEN");
+		return env("SSPASTE_GYAZO_TOKEN", "SSCLIP_GYAZO_TOKEN", "PICPASTE_GYAZO_TOKEN", "CHATIMAGEUPLOADER_GYAZO_TOKEN", "CHATIMGUR_GYAZO_TOKEN", "GYAZO_ACCESS_TOKEN");
 	}
 
 	public String imgbbKey() {
 		if (!imgbbApiKey.isBlank()) {
 			return imgbbApiKey;
 		}
-		return env("SSCLIP_IMGBB_API_KEY", "PICPASTE_IMGBB_API_KEY", "CHATIMAGEUPLOADER_IMGBB_API_KEY", "CHATIMGUR_IMGBB_API_KEY", "IMGBB_API_KEY");
+		return env("SSPASTE_IMGBB_API_KEY", "SSCLIP_IMGBB_API_KEY", "PICPASTE_IMGBB_API_KEY", "CHATIMAGEUPLOADER_IMGBB_API_KEY", "CHATIMGUR_IMGBB_API_KEY", "IMGBB_API_KEY");
 	}
 
 	public String resolvedUploader() {

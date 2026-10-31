@@ -1,4 +1,4 @@
-package com.ssclip.client;
+package com.sspaste.client;
 
 public record UploadResult(String host, String url, String deleteUrl, String deleteKey) {
 }

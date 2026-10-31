@@ -1,13 +1,13 @@
-# SSclip
+# SS Paste
 
 [日本語](README.md) | English
 
-SSclip is a client-side Fabric mod (Minecraft 26.3). Paste an image into the chat box with
+SS Paste is a client-side Fabric mod (Minecraft 26.3). Paste an image into the chat box with
 `Ctrl+V` (or `Cmd+V`): the image is uploaded and its URL is inserted into the
 chat input. F2 screenshots (including clean screenshots taken with F1) are also
 copied to the system clipboard automatically.
 
-![SSclip demo](docs/ssclip-demo.gif)
+![SS Paste demo](docs/sspaste-demo.gif)
 
 - Text paste is unchanged: if the clipboard contains plain text, the normal
   text paste happens.
@@ -47,9 +47,9 @@ expire after 24 hours (the logged-in 7-day mode is not implemented).
 
 imgbox has no public upload API, so it is not supported for automatic upload.
 
-Config file: `config/ssclip.json` (created on first launch). If Mod Menu
+Config file: `config/sspaste.json` (created on first launch). If Mod Menu
 and Cloth Config are installed, the same settings are available from
-**Mod Menu > SSclip > Config**. The screen follows the game
+**Mod Menu > SS Paste > Config**. The screen follows the game
 language (English/Japanese) and includes a clickable Gyazo token link.
 
 ```json
@@ -69,9 +69,9 @@ language (English/Japanese) and includes a clickable Gyazo token link.
 }
 ```
 
-The Imgur Client-ID can also come from `SSCLIP_CLIENT_ID` or
-`IMGUR_CLIENT_ID`. The Gyazo token can come from `SSCLIP_GYAZO_TOKEN` or
-`GYAZO_ACCESS_TOKEN`. The ImgBB key can come from `SSCLIP_IMGBB_API_KEY` or
+The Imgur Client-ID can also come from `SSPASTE_CLIENT_ID` or
+`IMGUR_CLIENT_ID`. The Gyazo token can come from `SSPASTE_GYAZO_TOKEN` or
+`GYAZO_ACCESS_TOKEN`. The ImgBB key can come from `SSPASTE_IMGBB_API_KEY` or
 `IMGBB_API_KEY`.
 
 ## Chat image previews
@@ -100,15 +100,15 @@ the property of their respective owners.
 
 Images are sent to the selected third-party host when you upload them and become
 publicly accessible URLs. Tokens and API keys are stored locally in
-`config/ssclip.json` and are only sent to the selected host. The upload
+`config/sspaste.json` and are only sent to the selected host. The upload
 history (image URLs and delete links) is also stored locally under `config/`.
 Chat previews fetch image URLs from the supported hosts; no data is sent to the
 mod author.
 
 ## Migration
 
-The mod id changed to `ssclip`. An existing `config/chatimageuploader.json`
-or `config/chatimgur.json` is copied to `config/ssclip.json` automatically.
+The mod id changed to `sspaste`. An existing `config/chatimageuploader.json`
+or `config/chatimgur.json` is copied to `config/sspaste.json` automatically.
 Remove old `chatimageuploader-*.jar` / `chatimgur-*.jar` files from the mods
 folder to avoid duplicates.
 
@@ -117,17 +117,17 @@ folder to avoid duplicates.
 After each successful upload, the mod saves the image URL and (when available)
 the delete link locally:
 
-- `config/ssclip-history.json` — history data
-- `config/ssclip-history.html` — browser-viewable history page
+- `config/sspaste-history.json` — history data
+- `config/sspaste-history.html` — browser-viewable history page
 
 Newest first, up to 200 entries. Open it from the "Upload history" link in
-**Mod Menu > SSclip > Config**, or open the HTML file directly.
+**Mod Menu > SS Paste > Config**, or open the HTML file directly.
 
 - Imgur / ImgBB / gzo.ai: delete link is recorded
 - Gyazo: image page is recorded (delete from Gyazo)
 - Catbox: no delete link
 
-**Delete links are secrets.** Do not share `ssclip-history.json` / `.html`.
+**Delete links are secrets.** Do not share `sspaste-history.json` / `.html`.
 
 ## Notes
 
@@ -139,5 +139,5 @@ Newest first, up to 200 entries. Open it from the "Upload history" link in
 
 ```sh
 ./gradlew build
-# -> build/libs/ssclip-3.0.0.jar
+# -> build/libs/sspaste-3.1.0.jar
 ```
