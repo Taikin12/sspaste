@@ -17,7 +17,7 @@ public final class SSPasteConfig {
 	private static final Path OLDER_PATH = FabricLoader.getInstance().getConfigDir().resolve("chatimageuploader.json");
 	private static final Path OLDEST_PATH = FabricLoader.getInstance().getConfigDir().resolve("chatimgur.json");
 
-	public String uploader = "catbox";
+	public String uploader = "gzo";
 	public String imgurClientId = "";
 	public String gyazoAccessToken = "";
 	public String imgbbApiKey = "";
@@ -95,7 +95,7 @@ public final class SSPasteConfig {
 
 	private void normalize() {
 		if (uploader == null || uploader.isBlank()) {
-			uploader = "catbox";
+			uploader = "gzo";
 		}
 		uploader = uploader.trim().toLowerCase(Locale.ROOT);
 		if (!uploader.equals("auto") && !uploader.equals("imgur") && !uploader.equals("gyazo")
@@ -182,7 +182,7 @@ public final class SSPasteConfig {
 		if (!imgbbKey().isBlank()) {
 			return "imgbb";
 		}
-		return "catbox";
+		return "gzo";
 	}
 
 	public long maxUploadBytes() {

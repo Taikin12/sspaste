@@ -27,15 +27,15 @@ Imgur は新規 Client-ID 登録が停止しているため、既存の Client-I
 
 - **Gyazo**: <https://gyazo.com/oauth/applications> でアプリを作成し、アクセストークンを発行します。画像は Gyazo アカウントに保存されます。
 - **ImgBB**: <https://api.imgbb.com/> で無料 API キーを取得します。アップロードは恒久的です。
-- **gzo.ai**: キー不要。明示的に選択すると使えます。24 時間で消えます（ログイン時の 7 日保存は未実装）。
+- **gzo.ai**: デフォルトのアップロード先。キー不要で、24 時間で消えます（ログイン時の 7 日保存は未実装）。削除リンクも記録されます。
 - **imgbox**: 公開アップロード API がないため非対応です。
-- **Catbox**: キー不要。デフォルトのアップロード先です。
+- **Catbox**: キー不要ですが、現在アップロード停止中の場合があります。その場合はgzo.aiを使ってください。
 
 設定ファイル: `config/sspaste.json`（初回起動時に生成）。Mod Menu と Cloth Config が入っている場合は **Mod Menu > SS Paste > Config** からも設定できます。画面はゲーム言語（日本語/英語）に追従し、Gyazo トークン取得へのリンクも表示します。
 
 ```json
 {
-  "uploader": "catbox",
+  "uploader": "gzo",
   "imgurClientId": "",
   "gyazoAccessToken": "",
   "imgbbApiKey": "",
@@ -104,5 +104,5 @@ HTTPS のみ、最大 8 MB。プレビュー画像は高解像度テクスチャ
 
 ```sh
 ./gradlew build
-# -> build/libs/sspaste-3.2.0.jar
+# -> build/libs/sspaste-3.3.0.jar
 ```

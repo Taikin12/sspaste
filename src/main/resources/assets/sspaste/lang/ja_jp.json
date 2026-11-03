@@ -18,7 +18,7 @@
 	"sspaste.config.uploader": "アップロード先",
 	"sspaste.config.uploader.auto": "自動",
 	"sspaste.config.uploader.catbox": "catbox.moe",
-	"sspaste.config.uploader.tooltip": "自動: Imgur Client-ID → Gyazo → ImgBB → catbox.moe の順で使います。",
+	"sspaste.config.uploader.tooltip": "自動: Imgur Client-ID → Gyazo → ImgBB → gzo.ai の順で使います。",
 	"sspaste.config.uploader.gyazo": "Gyazo",
 	"sspaste.config.gyazo_token": "Gyazoアクセストークン",
 	"sspaste.config.gyazo_token.tooltip": "Gyazoの開発者ダッシュボードでアプリを作成し、アクセストークンを発行してください。",

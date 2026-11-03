@@ -86,7 +86,7 @@ public final class SSPasteConfigScreen {
 		ConfigCategory upload = builder.getOrCreateCategory(Component.translatable("sspaste.config.category.upload"));
 		upload.addEntry(eb.startSelector(Component.translatable("sspaste.config.uploader"),
 						new String[]{"auto", "catbox", "gyazo", "imgbb", "gzo", "imgur"}, config.uploader)
-				.setDefaultValue("catbox")
+				.setDefaultValue("gzo")
 				.setSaveConsumer(v -> config.uploader = v)
 				.setNameProvider(v -> Component.translatable("sspaste.config.uploader." + v))
 				.setTooltip(Component.translatable("sspaste.config.uploader.tooltip"))

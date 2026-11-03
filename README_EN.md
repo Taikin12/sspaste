@@ -25,12 +25,12 @@ copied to the system clipboard automatically.
 
 | config `uploader` | behaviour |
 | ----------------- | --------- |
-| `catbox` (default) | catbox.moe (no token required) |
-| `auto`            | Gyazo if a token is set, otherwise ImgBB if an API key is set, otherwise catbox.moe |
+| `gzo` (default)   | gzo.ai anonymous (no key, expires after 24 hours, delete link included) |
+| `auto`            | Imgur Client-ID if set, then Gyazo, then ImgBB, otherwise gzo.ai |
 | `gyazo`           | Gyazo (access token) |
 | `imgbb`           | ImgBB (API key) |
-| `gzo`             | gzo.ai anonymous (no key, expires after 24 hours) |
 | `imgur`           | Imgur (existing Client-ID only) |
+| `catbox`          | catbox.moe (no token required; uploads may be paused) |
 
 Imgur still works if you already have a Client-ID; new Client-ID registration
 is currently closed.
@@ -42,10 +42,11 @@ your Gyazo account.
 ImgBB requires a **free API key** from <https://api.imgbb.com/>. Uploads are
 permanent.
 
-gzo.ai works anonymously without a key and is selectable explicitly. Uploads
-expire after 24 hours (the logged-in 7-day mode is not implemented).
+gzo.ai is the default: no key is required, uploads expire after 24 hours (the
+logged-in 7-day mode is not implemented), and delete links are recorded.
 
 imgbox has no public upload API, so it is not supported for automatic upload.
+Catbox needs no token, but its uploads may be paused; use gzo.ai if Catbox fails.
 
 Config file: `config/sspaste.json` (created on first launch). If Mod Menu
 and Cloth Config are installed, the same settings are available from
@@ -54,7 +55,7 @@ language (English/Japanese) and includes a clickable Gyazo token link.
 
 ```json
 {
-  "uploader": "catbox",
+  "uploader": "gzo",
   "imgurClientId": "",
   "gyazoAccessToken": "",
   "imgbbApiKey": "",
@@ -140,5 +141,5 @@ the link at the top of the tab.
 
 ```sh
 ./gradlew build
-# -> build/libs/sspaste-3.2.0.jar
+# -> build/libs/sspaste-3.3.0.jar
 ```
