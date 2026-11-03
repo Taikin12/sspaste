@@ -25,6 +25,8 @@ Minecraft 26.3 用のクライアントサイド Fabric MOD です。チャッ�
 
 Imgur は新規 Client-ID 登録が停止しているため、既存の Client-ID が必要です。
 
+選択したアップロード先が失敗した場合は、**gzo.ai に自動フォールバック**します（gzo選択時を除く）。
+
 - **Gyazo**: <https://gyazo.com/oauth/applications> でアプリを作成し、アクセストークンを発行します。画像は Gyazo アカウントに保存されます。
 - **ImgBB**: <https://api.imgbb.com/> で無料 API キーを取得します。アップロードは恒久的です。
 - **gzo.ai**: デフォルトのアップロード先。キー不要で、24 時間で消えます（ログイン時の 7 日保存は未実装）。削除リンクも記録されます。
@@ -104,5 +106,5 @@ HTTPS のみ、最大 8 MB。プレビュー画像は高解像度テクスチャ
 
 ```sh
 ./gradlew build
-# -> build/libs/sspaste-3.3.0.jar
+# -> build/libs/sspaste-3.4.0.jar
 ```

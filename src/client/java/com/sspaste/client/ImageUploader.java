@@ -28,7 +28,27 @@ public final class ImageUploader {
 	}
 
 	public static UploadResult upload(byte[] png, SSPasteConfig config) throws IOException, InterruptedException {
-		String host = config.resolvedUploader();
+		String primary = config.resolvedUploader();
+		IOException last = null;
+		try {
+			return uploadTo(primary, png, config);
+		} catch (IOException e) {
+			last = e;
+			SSPasteClient.LOGGER.warn("Upload via {} failed; trying fallback", primary, e);
+		}
+		if (!primary.equals("gzo")) {
+			try {
+				return uploadTo("gzo", png, config);
+			} catch (IOException e) {
+				last = e;
+				SSPasteClient.LOGGER.warn("Fallback upload via gzo.ai failed", e);
+			}
+		}
+		throw last != null ? last : new IOException("upload failed");
+	}
+
+	private static UploadResult uploadTo(String host, byte[] png, SSPasteConfig config)
+			throws IOException, InterruptedException {
 		if (host.equals("imgur")) {
 			return uploadImgur(png, config);
 		}

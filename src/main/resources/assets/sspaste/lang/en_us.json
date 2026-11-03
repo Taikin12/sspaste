@@ -61,5 +61,6 @@
 	"sspaste.config.history.none": "No delete link",
 	"sspaste.config.history.image_hover": "Open image",
 	"sspaste.config.history.delete_hover": "Open delete link",
-	"sspaste.config.history.gyazo_hover": "Open the Gyazo image page (delete from Gyazo)"
+	"sspaste.config.history.gyazo_hover": "Open the Gyazo image page (delete from Gyazo)",
+	"sspaste.upload_fallback": "%s failed; uploaded to %s instead."
 }

@@ -61,5 +61,6 @@
 	"sspaste.config.history.none": "削除リンクなし",
 	"sspaste.config.history.image_hover": "画像を開く",
 	"sspaste.config.history.delete_hover": "削除リンクを開く",
-	"sspaste.config.history.gyazo_hover": "Gyazoの画像ページを開く（削除はGyazo上で）"
+	"sspaste.config.history.gyazo_hover": "Gyazoの画像ページを開く（削除はGyazo上で）",
+	"sspaste.upload_fallback": "%sに失敗したため、%sにアップロードしました。"
 }

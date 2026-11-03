@@ -68,6 +68,7 @@ public final class SSPasteClient implements ClientModInitializer {
 		BufferedImage image = found.get();
 		long maxBytes = config == null ? 10L * 1024L * 1024L : config.maxUploadBytes();
 		SSPasteConfig cfg = config;
+		String expectedHost = cfg == null ? "gzo" : cfg.resolvedUploader();
 
 		feedback(Component.translatable("sspaste.uploading").withStyle(ChatFormatting.GRAY));
 
@@ -75,7 +76,7 @@ public final class SSPasteClient implements ClientModInitializer {
 			try {
 				byte[] png = ImageUploader.encodeForUpload(image, maxBytes);
 				UploadResult result = ImageUploader.upload(png, cfg);
-				Minecraft.getInstance().execute(() -> onUploaded(screen, result));
+				Minecraft.getInstance().execute(() -> onUploaded(screen, result, expectedHost));
 			} catch (Throwable t) {
 				LOGGER.warn("Image upload failed", t);
 				String reason = t.getMessage() == null || t.getMessage().isBlank()
@@ -88,9 +89,13 @@ public final class SSPasteClient implements ClientModInitializer {
 		return true;
 	}
 
-	private static void onUploaded(ChatScreen screen, UploadResult result) {
+	private static void onUploaded(ChatScreen screen, UploadResult result, String expectedHost) {
 		BUSY.set(false);
 		SSPasteHistory.add(result);
+		if (expectedHost != null && !expectedHost.equals(result.host())) {
+			feedback(Component.translatable("sspaste.upload_fallback", expectedHost, result.host())
+					.withStyle(ChatFormatting.YELLOW));
+		}
 
 		Minecraft minecraft = Minecraft.getInstance();
 		if (minecraft.gui.screen() == screen) {

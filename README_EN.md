@@ -35,6 +35,9 @@ copied to the system clipboard automatically.
 Imgur still works if you already have a Client-ID; new Client-ID registration
 is currently closed.
 
+If the selected uploader fails, the mod automatically retries with **gzo.ai**
+(unless gzo is already selected).
+
 Gyazo requires an **access token**: create an application at
 <https://gyazo.com/oauth/applications> and generate one. Uploads are saved to
 your Gyazo account.
@@ -141,5 +144,5 @@ the link at the top of the tab.
 
 ```sh
 ./gradlew build
-# -> build/libs/sspaste-3.3.0.jar
+# -> build/libs/sspaste-3.4.0.jar
 ```
