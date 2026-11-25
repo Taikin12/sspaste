@@ -98,9 +98,12 @@ public final class SSPasteConfig {
 			uploader = "gzo";
 		}
 		uploader = uploader.trim().toLowerCase(Locale.ROOT);
-		if (!uploader.equals("auto") && !uploader.equals("imgur") && !uploader.equals("gyazo")
-				&& !uploader.equals("imgbb") && !uploader.equals("gzo") && !uploader.equals("catbox")) {
-			uploader = "auto";
+		if (uploader.equals("auto")) {
+			uploader = "gzo";
+		}
+		if (!uploader.equals("imgur") && !uploader.equals("gyazo") && !uploader.equals("imgbb")
+				&& !uploader.equals("gzo") && !uploader.equals("catbox")) {
+			uploader = "gzo";
 		}
 
 		if (imgurClientId == null) {
@@ -139,10 +142,6 @@ public final class SSPasteConfig {
 		return env("SSPASTE_CLIENT_ID", "SSCLIP_CLIENT_ID", "PICPASTE_CLIENT_ID", "CHATIMAGEUPLOADER_CLIENT_ID", "CHATIMGUR_CLIENT_ID", "IMGUR_CLIENT_ID");
 	}
 
-	public boolean hasImgurClientId() {
-		return !clientId().isBlank();
-	}
-
 	public String gyazoToken() {
 		if (!gyazoAccessToken.isBlank()) {
 			return gyazoAccessToken;
@@ -172,15 +171,6 @@ public final class SSPasteConfig {
 		}
 		if (uploader.equals("catbox")) {
 			return "catbox";
-		}
-		if (hasImgurClientId()) {
-			return "imgur";
-		}
-		if (!gyazoToken().isBlank()) {
-			return "gyazo";
-		}
-		if (!imgbbKey().isBlank()) {
-			return "imgbb";
 		}
 		return "gzo";
 	}

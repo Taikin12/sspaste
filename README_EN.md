@@ -26,7 +26,6 @@ copied to the system clipboard automatically.
 | config `uploader` | behaviour |
 | ----------------- | --------- |
 | `gzo` (default)   | gzo.ai anonymous (no key, expires after 24 hours, delete link included) |
-| `auto`            | Imgur Client-ID if set, then Gyazo, then ImgBB, otherwise gzo.ai |
 | `gyazo`           | Gyazo (access token) |
 | `imgbb`           | ImgBB (API key) |
 | `imgur`           | Imgur (existing Client-ID only) |
@@ -145,5 +144,5 @@ the link at the top of the tab.
 
 ```sh
 ./gradlew build
-# -> build/libs/sspaste-3.4.0.jar
+# -> build/libs/sspaste-3.5.0.jar
 ```

@@ -107,5 +107,5 @@ HTTPS のみ、最大 8 MB。プレビュー画像は高解像度テクスチャ
 
 ```sh
 ./gradlew build
-# -> build/libs/sspaste-3.4.0.jar
+# -> build/libs/sspaste-3.5.0.jar
 ```
