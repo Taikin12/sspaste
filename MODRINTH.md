@@ -24,7 +24,7 @@ clipboard, and previews image links when you hover them.
 | ImgBB | Free API key, permanent, delete URL |
 | Imgur | Existing Client-ID only |
 | Gyazo | Access token |
-| Catbox | No key; uploads may be paused |
+| Catbox | No key |
 
 ## Requirements
 
@@ -37,7 +37,7 @@ clipboard, and previews image links when you hover them.
 
 ## Notes
 
-- gzo.ai uploads expire after 24 hours. Catbox may be paused; the mod falls back to gzo.ai on failure.
+- gzo.ai uploads expire after 24 hours. If the selected uploader fails, the mod falls back to gzo.ai.
 - Delete links are secrets. `config/sspaste-history.json` and `.html` are local; do not share them.
 - Not affiliated with Mojang Studios, Microsoft, Imgur, Gyazo / Helpfeel, ImgBB, gzo.ai, or Catbox.
 

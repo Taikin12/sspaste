@@ -22,7 +22,7 @@
 | ImgBB | 無料APIキー、恒久、削除URLあり |
 | Imgur | 既存のClient-IDのみ |
 | Gyazo | アクセストークン |
-| Catbox | キー不要。現在アップロード停止中の場合あり |
+| Catbox | キー不要 |
 
 ## 前提
 
@@ -35,7 +35,7 @@
 
 ## 注意
 
-- gzo.aiの画像は24時間で消えます。Catboxが停止中の場合はgzo.aiへフォールバックします。
+- gzo.aiの画像は24時間で消えます。選択したホストが失敗した場合はgzo.aiへフォールバックします。
 - 削除リンクは秘密情報です。`config/sspaste-history.json` / `.html` はローカルのみで、共有しないでください。
 - Mojang Studios、Microsoft、Imgur、Gyazo / Helpfeel、ImgBB、gzo.ai、Catboxとは関係ありません。
 

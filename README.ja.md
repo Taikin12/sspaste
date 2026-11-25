@@ -20,7 +20,7 @@ Minecraft 26.3 用のクライアントサイド Fabric MOD です。チャッ�
 | `gyazo` | Gyazo（アクセストークン） |
 | `imgbb` | ImgBB（API キー） |
 | `imgur` | Imgur（既存の Client-ID がある場合のみ） |
-| `catbox` | catbox.moe（トークン不要。現在アップロード停止中の場合あり） |
+| `catbox` | catbox.moe（トークン不要） |
 
 Imgur は新規 Client-ID 登録が停止しているため、既存の Client-ID が必要です。
 
@@ -30,7 +30,7 @@ Imgur は新規 Client-ID 登録が停止しているため、既存の Client-I
 - **ImgBB**: <https://api.imgbb.com/> で無料 API キーを取得します。アップロードは恒久的です。
 - **gzo.ai**: デフォルトのアップロード先。キー不要で、24 時間で消えます（ログイン時の 7 日保存は未実装）。削除リンクも記録されます。
 - **imgbox**: 公開アップロード API がないため非対応です。
-- **Catbox**: キー不要ですが、現在アップロード停止中の場合があります。その場合はgzo.aiを使ってください。
+- **Catbox**: キー不要です。
 
 設定ファイル: `config/sspaste.json`（初回起動時に生成）。Mod Menu と Cloth Config が入っている場合は **Mod Menu > SS Paste > Config** からも設定できます。画面はゲーム言語（日本語/英語）に追従し、Gyazo トークン取得へのリンクも表示します。
 

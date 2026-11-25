@@ -29,7 +29,7 @@ copied to the system clipboard automatically.
 | `gyazo`           | Gyazo (access token) |
 | `imgbb`           | ImgBB (API key) |
 | `imgur`           | Imgur (existing Client-ID only) |
-| `catbox`          | catbox.moe (no token required; uploads may be paused) |
+| `catbox`          | catbox.moe (no token required) |
 
 Imgur still works if you already have a Client-ID; new Client-ID registration
 is currently closed.
@@ -48,7 +48,7 @@ gzo.ai is the default: no key is required, uploads expire after 24 hours (the
 logged-in 7-day mode is not implemented), and delete links are recorded.
 
 imgbox has no public upload API, so it is not supported for automatic upload.
-Catbox needs no token, but its uploads may be paused; use gzo.ai if Catbox fails.
+Catbox needs no token.
 
 Config file: `config/sspaste.json` (created on first launch). If Mod Menu
 and Cloth Config are installed, the same settings are available from
