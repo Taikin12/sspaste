@@ -95,6 +95,7 @@ HTTPS のみ、最大 8 MB。プレビュー画像は高解像度テクスチャ
 - Fabric Loader 0.20.1+
 - Fabric API 0.165.0+26.3
 - Java 25
+- Quilt: Quilt Loader + Quilted Fabric API（Fabric API互換。Quiltでの実機確認は未実施）
 - Mod Menu 21.0.0 / Cloth Config 26.3.159+（設定画面を使う場合。なくても `config/sspaste.json` で設定できます）
 
 ## 注意

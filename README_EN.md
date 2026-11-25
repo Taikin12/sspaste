@@ -133,6 +133,7 @@ the link at the top of the tab.
 - Fabric Loader 0.20.1+
 - Fabric API 0.165.0+26.3
 - Java 25
+- Quilt: Quilt Loader + Quilted Fabric API (Fabric API-compatible; not tested on Quilt)
 - Mod Menu 21.0.0 / Cloth Config 26.3.159+ (for the in-game config screen; `config/sspaste.json` works without them)
 
 ## Notes
