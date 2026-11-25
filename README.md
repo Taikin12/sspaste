@@ -1,39 +1,59 @@
 # SS Paste
 
-[English](README_EN.md) | 日本語
+[日本語](README.ja.md) | English
 
-Minecraft 26.3 用のクライアントサイド Fabric MOD です。チャット欄で `Ctrl+V`（Mac は `Cmd+V`）すると、クリップボードの画像をアップロードして URL を入力欄に挿入します。F2 スクリーンショット（F1 で HUD を消したものも含む）は自動でシステムクリップボードにもコピーされます。
+SS Paste is a client-side Fabric mod (Minecraft 26.3). Paste an image into the chat box with
+`Ctrl+V` (or `Cmd+V`): the image is uploaded and its URL is inserted into the
+chat input. F2 screenshots (including clean screenshots taken with F1) are also
+copied to the system clipboard automatically.
 
 ![SS Paste demo](docs/sspaste-demo.gif)
 
-- クリップボードにテキストがある場合は、通常のテキスト貼り付けを優先します。
-- ビットマップ画像（`DataFlavor.imageFlavor` / `image/png`）と画像ファイルに対応しています。
-- アップロードはバックグラウンドで実行し、完了時にカーソル位置へ URL を挿入します。チャットを閉じていた場合は URL をクリップボードにコピーしてチャットに表示します。
-- F2 スクリーンショットをクリップボードへコピーするので、F1 のきれいなスクショをそのまま貼り付けられます。
-- チャット内の画像 URL にホバーするとツールチップでプレビューします（`showChatImagePreviews`、デフォルト ON）。
+- Text paste is unchanged: if the clipboard contains plain text, the normal
+  text paste happens.
+- Images copied as a bitmap (`DataFlavor.imageFlavor` / `image/png`) or as an
+  image file are supported.
+- The upload runs in the background; the URL is inserted at the cursor when it
+  finishes. If the chat screen was closed meanwhile, the URL is copied to the
+  clipboard and shown in chat.
+- F2 screenshots are copied to the clipboard, so you can take a clean F1
+  screenshot and immediately paste it into chat.
+- Hover an image URL in chat to show a thumbnail preview in a tooltip
+  (`showChatImagePreviews`, default on).
 
-## アップロード先
+## Hosts
 
-| `uploader` | 動作 |
-| --- | --- |
-| `catbox`（デフォルト） | catbox.moe（トークン不要） |
-| `auto` | Imgur 設定時は Imgur → Gyazo → ImgBB → catbox.moe |
-| `gyazo` | Gyazo（アクセストークン） |
-| `imgbb` | ImgBB（API キー） |
-| `gzo` | gzo.ai 匿名（キー不要、24 時間で消える） |
-| `imgur` | Imgur（既存の Client-ID がある場合のみ） |
+| config `uploader` | behaviour |
+| ----------------- | --------- |
+| `gzo` (default)   | gzo.ai anonymous (no key, expires after 24 hours, delete link included) |
+| `gyazo`           | Gyazo (access token) |
+| `imgbb`           | ImgBB (API key) |
+| `imgur`           | Imgur (existing Client-ID only) |
+| `catbox`          | catbox.moe (no token required; uploads may be paused) |
 
-Imgur は新規 Client-ID 登録が停止しているため、既存の Client-ID が必要です。
+Imgur still works if you already have a Client-ID; new Client-ID registration
+is currently closed.
 
-選択したアップロード先が失敗した場合は、**gzo.ai に自動フォールバック**します（gzo選択時を除く）。
+If the selected uploader fails, the mod automatically retries with **gzo.ai**
+(unless gzo is already selected).
 
-- **Gyazo**: <https://gyazo.com/oauth/applications> でアプリを作成し、アクセストークンを発行します。画像は Gyazo アカウントに保存されます。
-- **ImgBB**: <https://api.imgbb.com/> で無料 API キーを取得します。アップロードは恒久的です。
-- **gzo.ai**: デフォルトのアップロード先。キー不要で、24 時間で消えます（ログイン時の 7 日保存は未実装）。削除リンクも記録されます。
-- **imgbox**: 公開アップロード API がないため非対応です。
-- **Catbox**: キー不要ですが、現在アップロード停止中の場合があります。その場合はgzo.aiを使ってください。
+Gyazo requires an **access token**: create an application at
+<https://gyazo.com/oauth/applications> and generate one. Uploads are saved to
+your Gyazo account.
 
-設定ファイル: `config/sspaste.json`（初回起動時に生成）。Mod Menu と Cloth Config が入っている場合は **Mod Menu > SS Paste > Config** からも設定できます。画面はゲーム言語（日本語/英語）に追従し、Gyazo トークン取得へのリンクも表示します。
+ImgBB requires a **free API key** from <https://api.imgbb.com/>. Uploads are
+permanent.
+
+gzo.ai is the default: no key is required, uploads expire after 24 hours (the
+logged-in 7-day mode is not implemented), and delete links are recorded.
+
+imgbox has no public upload API, so it is not supported for automatic upload.
+Catbox needs no token, but its uploads may be paused; use gzo.ai if Catbox fails.
+
+Config file: `config/sspaste.json` (created on first launch). If Mod Menu
+and Cloth Config are installed, the same settings are available from
+**Mod Menu > SS Paste > Config**. The screen follows the game
+language (English/Japanese) and includes a clickable Gyazo token link.
 
 ```json
 {
@@ -52,58 +72,75 @@ Imgur は新規 Client-ID 登録が停止しているため、既存の Client-I
 }
 ```
 
-環境変数でも設定できます（旧 `CHATIMAGEUPLOADER_*` / `CHATIMGUR_*` も読みます）。
+The Imgur Client-ID can also come from `SSPASTE_CLIENT_ID` or
+`IMGUR_CLIENT_ID`. The Gyazo token can come from `SSPASTE_GYAZO_TOKEN` or
+`GYAZO_ACCESS_TOKEN`. The ImgBB key can come from `SSPASTE_IMGBB_API_KEY` or
+`IMGBB_API_KEY`.
 
-- Imgur Client-ID: `SSPASTE_CLIENT_ID`
-- Gyazo: `SSPASTE_GYAZO_TOKEN`
-- ImgBB: `SSPASTE_IMGBB_API_KEY`
+## Chat image previews
 
-## チャット画像プレビュー
+Direct image URLs and extensionless viewer pages from Imgur, Gyazo, ImgBB,
+gzo.ai, and Catbox are previewed when you hover over them in chat. Viewer pages are resolved to the actual image
+via Open Graph tags / known URL patterns. Clicking the URL still opens it in
+the browser. Imgur albums/galleries with a configured Client-ID show up to 4 images in a
+2x2 grid (with "+N" for the rest); without an Imgur Client-ID only the cover
+image is previewed. Only HTTPS URLs are loaded, up
+to 8 MB; previews are
+downloaded/scaled to a high-resolution texture (1280x720 by default) and drawn
+at a smaller display size (160x100 by default) with linear filtering. Both are
+separately adjustable in the config screen (`chatImagePreviewWidth`/`Height`
+for the display, `chatImageTextureWidth`/`Height` for the texture resolution).
+Higher texture resolution looks sharper but uses more memory. Disable previews
+entirely with `showChatImagePreviews`.
 
-Imgur / Gyazo / ImgBB / gzo.ai / Catbox の直リンクと、拡張子なしのページ URL に対応しています。ページ URL は OGP（`og:image`）や既知の URL パターンから実画像を解決します。URL をクリックするとブラウザで開きます。
+## Disclaimer
 
-Imgur のアルバム／ギャラリーは、Client-ID が設定されている場合に最大 4 枚を 2x2 グリッドで表示します（5 枚以上は「+N」）。認証情報がない場合はカバー画像 1 枚のみです。
+This mod is not affiliated with Mojang Studios, Microsoft, Imgur, Gyazo /
+Helpfeel, ImgBB, gzo.ai, or Catbox. All product names, logos, and trademarks are
+the property of their respective owners.
 
-HTTPS のみ、最大 8 MB。プレビュー画像は高解像度テクスチャ（デフォルト 1280x720）として取得し、小さい表示サイズ（デフォルト 160x100）にリニアフィルタで縮小します。表示サイズとテクスチャ解像度は設定画面で個別に変更できます（`chatImagePreviewWidth` / `chatImagePreviewHeight`、`chatImageTextureWidth` / `chatImageTextureHeight`）。テクスチャ解像度を上げるほどシャープになりますが、メモリ使用量が増えます。プレビュー自体は `showChatImagePreviews` で無効化できます。
+## Privacy
 
-## 免責
+Images are sent to the selected third-party host when you upload them and become
+publicly accessible URLs. Tokens and API keys are stored locally in
+`config/sspaste.json` and are only sent to the selected host. The upload
+history (image URLs and delete links) is also stored locally under `config/`.
+Chat previews fetch image URLs from the supported hosts; no data is sent to the
+mod author.
 
-この MOD は Mojang Studios、Microsoft、Imgur、Gyazo / Helpfeel、ImgBB、gzo.ai、Catbox とは関係ありません。各製品名・ロゴ・商標はそれぞれの所有者に帰属します。
+## Upload history
 
-## プライバシー
+After each successful upload, the mod saves the image URL and (when available)
+the delete link locally:
 
-アップロードした画像は選択した第三者のホストに送信され、公開 URL になります。トークンや API キーは `config/sspaste.json` にローカル保存され、選択したホストにのみ送信されます。アップロード履歴（画像URL・削除リンク）も `config/` にローカル保存されます。チャットプレビューは対応ホストから画像を取得します。作者にデータは送信されません。
+- `config/sspaste-history.json` — history data
+- `config/sspaste-history.html` — browser-viewable history page
 
-## アップロード履歴
+The **Upload history** tab in **Mod Menu > SS Paste > Config** shows the newest
+20 entries with clickable image and delete links. Open the full HTML page from
+the link at the top of the tab.
 
-アップロードに成功するたびに、画像URLと削除リンク（取得できる場合）をローカルへ保存します。
+- Imgur / ImgBB / gzo.ai: delete link is recorded
+- Gyazo: image page is recorded (delete from Gyazo)
+- Catbox: no delete link
 
-- `config/sspaste-history.json` — 履歴データ
-- `config/sspaste-history.html` — ブラウザで見る履歴ページ
+**Delete links are secrets.** Do not share `sspaste-history.json` / `.html`.
 
-**Mod Menu > SS Paste > Config** の「アップロード履歴」タブに最新20件を表示します。画像URLと削除リンクはクリックで開けます。全件はタブ先頭のHTMLページリンクから開けます。
-
-- Imgur / ImgBB / gzo.ai: 削除リンクを記録
-- Gyazo: 画像ページを記録（削除はGyazo上で）
-- Catbox: 削除リンクなし
-
-**削除リンクは秘密情報です。** `sspaste-history.json` / `.html` を他人と共有しないでください。
-
-## 前提
+## Requirements
 
 - Minecraft 26.3
 - Fabric Loader 0.20.1+
 - Fabric API 0.165.0+26.3
 - Java 25
-- Quilt: Quilt Loader + Quilted Fabric API（Fabric API互換。Quiltでの実機確認は未実施）
-- Mod Menu 21.0.0 / Cloth Config 26.3.159+（設定画面を使う場合。なくても `config/sspaste.json` で設定できます）
+- Quilt: Quilt Loader + Quilted Fabric API (Fabric API-compatible; not tested on Quilt)
+- Mod Menu 21.0.0 / Cloth Config 26.3.159+ (for the in-game config screen; `config/sspaste.json` works without them)
 
-## 注意
+## Notes
 
-- アップロードした画像は公開 URL になります。
-- `maxUploadMegabytes` を超える画像はアップロード前に縮小されます（PNG）。
+- Uploads are public. Anyone with the URL can view the image.
+- Images larger than `maxUploadMegabytes` are downscaled (PNG) before upload.
 
-## ビルド
+## Build
 
 ```sh
 ./gradlew build

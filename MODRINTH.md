@@ -45,3 +45,4 @@ clipboard, and previews image links when you hover them.
 
 - Source: https://github.com/Taikin12/sspaste
 - Issues: https://github.com/Taikin12/sspaste/issues
+- Japanese README: https://github.com/Taikin12/sspaste/blob/main/README.ja.md
