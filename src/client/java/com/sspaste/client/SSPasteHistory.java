@@ -121,11 +121,68 @@ public final class SSPasteHistory {
 		}
 	}
 
+	private record Texts(
+			String lang,
+			String title,
+			String warn,
+			String stored,
+			String empty,
+			String time,
+			String host,
+			String imageUrl,
+			String delete,
+			String openInGyazo,
+			String deleteOnGyazo,
+			String key,
+			String noDeleteLink) {
+	}
+
+	private static final Texts TEXTS_EN = new Texts(
+			"en",
+			"SS Paste upload history",
+			"Delete links are secrets. Do not share this file or <code>sspaste-history.json</code> with anyone.",
+			"Showing the newest %d entries. JSON: <code>%s</code>",
+			"No uploads yet.",
+			"Time",
+			"Host",
+			"Image URL",
+			"Delete",
+			"Open in Gyazo",
+			"Delete from the Gyazo page.",
+			"Key: <code>%s</code>",
+			"No delete link");
+
+	private static final Texts TEXTS_JA = new Texts(
+			"ja",
+			"SS Paste アップロード履歴",
+			"削除リンクは秘密情報です。このファイルや <code>sspaste-history.json</code> を他人と共有しないでください。",
+			"新しい順に最大 %d 件を保存しています。JSON: <code>%s</code>",
+			"まだアップロード履歴がありません。",
+			"日時",
+			"ホスト",
+			"画像URL",
+			"削除",
+			"Gyazoで開く",
+			"削除はGyazoの画面から行ってください。",
+			"キー: <code>%s</code>",
+			"削除リンクなし");
+
+	private static Texts texts() {
+		String code;
+		try {
+			code = net.minecraft.client.Minecraft.getInstance().options.languageCode;
+		} catch (RuntimeException e) {
+			code = null;
+		}
+		return code != null && code.startsWith("ja") ? TEXTS_JA : TEXTS_EN;
+	}
+
 	private static String buildHtml(List<Entry> entries) {
+		Texts t = texts();
 		StringBuilder html = new StringBuilder();
-		html.append("<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n");
+		html.append("<!doctype html>\n<html lang=\"").append(t.lang()).append("\">\n<head>\n<meta charset=\"utf-8\">\n");
 		html.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n");
-		html.append("<title>SS Paste アップロード履歴</title>\n");
+		html.append("<title>").append(escape(t.title())).append("</title>\n");
 		html.append("<style>\n");
 		html.append(":root{color-scheme:light;--bg:#f7f7f8;--fg:#1a1a1a;--muted:#666;--line:#d0d0d5;--accent:#1e88e5;--danger:#c62828;}\n");
 		html.append("body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,'Segoe UI','Noto Sans JP',sans-serif;line-height:1.6;}\n");
@@ -142,15 +199,19 @@ public final class SSPasteHistory {
 		html.append(".muted{color:var(--muted);}\n");
 		html.append("code{background:#eef1f5;padding:1px 4px;border-radius:4px;word-break:break-all;}\n");
 		html.append("</style>\n</head>\n<body>\n<main>\n");
-		html.append("<h1>SS Paste アップロード履歴</h1>\n");
-		html.append("<p class=\"warn\">削除リンクは秘密情報です。このファイルや <code>sspaste-history.json</code> を他人と共有しないでください。</p>\n");
-		html.append("<p>新しい順に最大 ").append(MAX_ENTRIES).append(" 件を保存しています。JSON: <code>")
-				.append(escape(JSON_PATH.toString())).append("</code></p>\n");
+		html.append("<h1>").append(escape(t.title())).append("</h1>\n");
+		html.append("<p class=\"warn\">").append(t.warn()).append("</p>\n");
+		html.append("<p>").append(String.format(t.stored(), MAX_ENTRIES, escape(JSON_PATH.toString())))
+				.append("</p>\n");
 
 		if (entries.isEmpty()) {
-			html.append("<p>まだアップロード履歴がありません。</p>\n");
+			html.append("<p>").append(escape(t.empty())).append("</p>\n");
 		} else {
-			html.append("<table>\n<thead><tr><th>日時</th><th>ホスト</th><th>画像URL</th><th>削除</th></tr></thead>\n<tbody>\n");
+			html.append("<table>\n<thead><tr><th>").append(escape(t.time()))
+					.append("</th><th>").append(escape(t.host()))
+					.append("</th><th>").append(escape(t.imageUrl()))
+					.append("</th><th>").append(escape(t.delete()))
+					.append("</th></tr></thead>\n<tbody>\n");
 			for (Entry entry : entries) {
 				html.append("<tr><td>").append(escape(entry.time())).append("</td><td>")
 						.append(escape(entry.host())).append("</td><td class=\"url\"><a href=\"")
@@ -160,21 +221,21 @@ public final class SSPasteHistory {
 				if ("gyazo".equals(entry.host())) {
 					if (entry.deleteUrl() != null && !entry.deleteUrl().isBlank()) {
 						html.append("<a href=\"").append(escape(entry.deleteUrl()))
-								.append("\" target=\"_blank\" rel=\"noreferrer\">Gyazoで開く</a>");
+								.append("\" target=\"_blank\" rel=\"noreferrer\">").append(escape(t.openInGyazo())).append("</a>");
 					} else {
-						html.append("Gyazoで開く");
+						html.append(escape(t.openInGyazo()));
 					}
-					html.append("<br><span class=\"muted\">削除はGyazoの画面から行ってください。</span>");
+					html.append("<br><span class=\"muted\">").append(escape(t.deleteOnGyazo())).append("</span>");
 				} else if (entry.deleteUrl() != null && !entry.deleteUrl().isBlank()) {
 					html.append("<a class=\"del\" href=\"").append(escape(entry.deleteUrl()))
-							.append("\" target=\"_blank\" rel=\"noreferrer\">削除</a>");
+							.append("\" target=\"_blank\" rel=\"noreferrer\">").append(escape(t.delete())).append("</a>");
 					if (entry.deleteKey() != null && !entry.deleteKey().isBlank()) {
-						html.append("<br>キー: <code>").append(escape(entry.deleteKey())).append("</code>");
+						html.append("<br>").append(String.format(t.key(), escape(entry.deleteKey())));
 					}
 				} else if (entry.deleteKey() != null && !entry.deleteKey().isBlank()) {
-					html.append("キー: <code>").append(escape(entry.deleteKey())).append("</code>");
+					html.append(String.format(t.key(), escape(entry.deleteKey())));
 				} else {
-					html.append("削除リンクなし");
+					html.append(escape(t.noDeleteLink()));
 				}
 				html.append("</td></tr>\n");
 			}
