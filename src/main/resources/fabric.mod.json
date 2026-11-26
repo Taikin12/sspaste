@@ -7,7 +7,7 @@
 	"authors": [
 		"Taikin"
 	],
-	"license": "MIT",
+	"license": "Beerware",
 	"icon": "assets/sspaste/icon.png",
 	"environment": "client",
 	"entrypoints": {
